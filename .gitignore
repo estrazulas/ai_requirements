@@ -1,0 +1,9 @@
+# SO / editor
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# logs e temporários
+*.log
+tmp/
