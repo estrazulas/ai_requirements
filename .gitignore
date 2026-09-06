@@ -7,3 +7,7 @@
 # logs e temporários
 *.log
 tmp/
+
+# variáveis de ambiente / segredos
+.env
+.env.*
