@@ -215,7 +215,7 @@ Pule para o Passo 3 sem ajustes.
 
 ### Passo 3 — Montar e executar o prompt
 
-Com as informações fornecidas e a filtragem MoSCoW confirmada, monte o prompt completo abaixo e execute a priorização usando **apenas as USs classificadas como Must + Should**:
+Com as informações fornecidas e a filtragem MoSCoW confirmada, monte o prompt completo abaixo e execute a priorização usando **as USs classificadas como Must + Should + Could** (excluindo apenas Won't):
 
 ```
 Você é um Product Manager Sênior especializado em priorização de backlog para equipes de engenharia de software.
@@ -302,24 +302,23 @@ Se não houver Flags, escreva: "Sem flags — todos os itens têm base de estima
 
 ### 6. Resumo de USs Não Priorizadas
 
-Liste as USs classificadas como Could ou Won't que não foram incluídas no cálculo RICE/WSJF:
+Liste as USs classificadas como Won't que não foram incluídas no cálculo RICE/WSJF:
 
 | US | Título | Categoria MoSCoW | Motivo |
 |----|--------|------------------|--------|
-| US-XX | [Título] | Could | [ex: pode ser feito manualmente inicialmente] |
-| US-YY | [Título] | Won't | [ex: fora do escopo atual] |
+| US-XX | [Título] | Won't | [ex: fora do escopo atual] |
 
-**Total:** X Must + Y Should priorizadas | Z Could + W Won't não priorizadas
+**Total:** X Must + Y Should + Z Could priorizadas | W Won't não priorizadas
 
 ---
 
 ## RESTRIÇÕES DE COMPORTAMENTO
 
 - Não invente dados de mercado que não existam — se não houver benchmarks conhecidos para o domínio, declare "sem referência disponível" e use Confidence 50%
-- **Inclua APENAS as USs classificadas como Must ou Should nas tabelas RICE e WSJF** — USs Could e Won't não devem ser pontuadas, apenas listadas no resumo final
+- **Inclua as USs classificadas como Must, Should ou Could nas tabelas RICE e WSJF** — APENAS USs Won't não devem ser pontuadas
 - Não use linguagem vaga nas justificativas — cada Impact e Confidence deve ter uma razão específica
 - Se detectar dependência entre itens do backlog que invalide o ranking (item A depende de item B que está rankeado abaixo), declare explicitamente na seção de Flags
-- Ao final das tabelas, mostre um resumo das USs que ficaram de fora (Could e Won't) com a justificativa
+- Ao final das tabelas, mostre um resumo das USs que ficaram de fora (Won't) com a justificativa
 ```
 
 ---
@@ -341,8 +340,9 @@ Liste as USs classificadas como Could ou Won't que não foram incluídas no cál
 - [ ] Se o usuário pulou: prosseguir sem verificação
 
 ### 4.3 — Verificação do RICE/WSJF
-- [ ] Todas as USs Must + Should aparecem na tabela RICE?
-- [ ] Todas as USs Must + Should aparecem na tabela WSJF?
+- [ ] Todas as USs Must + Should + Could aparecem na tabela RICE?
+- [ ] Todas as USs Must + Should + Could aparecem na tabela WSJF?
+- [ ] USs Won't NÃO aparecem nas tabelas?
 - [ ] Fórmulas matemáticas corretas para cada US?
   - RICE = (Reach × Impact × Confidence) / Effort
   - Cost of Delay = Business Value + Time Criticality + Risk Reduction
@@ -365,11 +365,11 @@ Liste as USs classificadas como Could ou Won't que não foram incluídas no cál
 ## Auto-Verificação — Checklist
 
 ✅ MoSCoW: 16 USs classificadas (5 Must, 5 Should, 6 Could, 0 Won't)
-⏭️ Calibração: Pulada pelo usuário (estimativas consideradas adequadas)
-✅ RICE: 10 USs calculadas (apenas Must + Should)
-✅ WSJF: 10 USs calculadas
+✅ Calibração: 16 USs calibradas (Reach, Effort, Confidence, TC)
+✅ RICE: 16 USs calculadas (Must + Should + Could)
+✅ WSJF: 16 USs calculadas
 ✅ Consistência: Fórmulas validadas
-✅ Output: 5 seções completas
+✅ Output: 6 seções completas (incluindo resumo de Won't)
 ✅ Contexto: pontuacoes/contexto-projeto.md atualizado
 
 **Resultado:** Todos os passos seguidos. Ranking pronto para revisão.
@@ -381,11 +381,11 @@ Liste as USs classificadas como Could ou Won't que não foram incluídas no cál
 ## Auto-Verificação — Checklist
 
 ✅ MoSCoW: 16 USs classificadas
-❌ Calibração: 8 de 10 USs calibradas (US-07 e US-12 sem ajuste de Reach)
-✅ RICE: 10 USs calculadas
-✅ WSJF: 10 USs calculadas
+❌ Calibração: 14 de 16 USs calibradas (US-07 e US-12 sem ajuste de Reach)
+✅ RICE: 16 USs calculadas (Must + Should + Could)
+✅ WSJF: 16 USs calculadas
 ✅ Consistência: Fórmulas validadas
-✅ Output: 5 seções completas
+✅ Output: 6 seções completas (incluindo resumo de Won't)
 ✅ Contexto: pontuacoes/contexto-projeto.md atualizado
 
 **Resultado:** Calibração incompleta. Corrigindo...

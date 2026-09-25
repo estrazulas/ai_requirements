@@ -387,8 +387,9 @@ A skill identifica o problema e corrige automaticamente antes de apresentar o re
    - Se não: usa as estimativas originais
 
 6. **Passo 3 — Cálculo RICE/WSJF:**
-   - Calcula RICE Score e WSJF apenas para Must + Should
-   - Gera ranking combinado
+    - Calcula RICE Score e WSJF para Must + Should + Could
+    - Exclui apenas Won't do cálculo
+    - Gera ranking combinado
 
 7. **Passo 4 — Auto-Verificação:**
    - A skill executa um checklist de qualidade
@@ -466,11 +467,11 @@ Se sim, mostra ajustes em tópicos por US e aguarda confirmação.
 ## Auto-Verificação — Checklist
 
 ✅ MoSCoW: 16 USs classificadas (5 Must, 5 Should, 6 Could, 0 Won't)
-✅ Calibração: 10 USs calibradas (Reach, Effort, Confidence, TC)
-✅ RICE: 10 USs calculadas (apenas Must + Should)
-✅ WSJF: 10 USs calculadas
+✅ Calibração: 16 USs calibradas (Reach, Effort, Confidence, TC)
+✅ RICE: 16 USs calculadas (Must + Should + Could)
+✅ WSJF: 16 USs calculadas
 ✅ Consistência: Fórmulas validadas
-✅ Output: 5 seções completas
+✅ Output: 6 seções completas (incluindo resumo de Won't)
 ✅ Contexto: pontuacoes/contexto-projeto.md atualizado
 
 **Resultado:** Todos os passos seguidos. Ranking pronto para revisão.
