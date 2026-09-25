@@ -14,7 +14,7 @@ Quando o usuário invocar esta skill, siga o fluxo abaixo:
 
 **Lógica:**
 ```
-SE existe arquivo contexto-projeto.md (neste diretório):
+SE existe arquivo contexto-projeto.md no diretório do projeto:
     → Lê o contexto salvo
     → Pergunta: "Houve mudanças no contexto da equipe desde a última rodada?"
     → Se sim: atualiza o arquivo com novas informações
@@ -26,7 +26,8 @@ SENÃO (1ª execução):
        2. Volume de usuários/transações (editais, candidatos/mês)
        3. Histórico com features similares (esforço real)
        4. Prazos externos e regulatórios (deadlines fixos)
-    → Salva em contexto-projeto.md (neste diretório)
+    → Salva em contexto-projeto.md no diretório do projeto
+    → Use exemplo-contexto-projeto.md como referência de estrutura
 ```
 
 **Solicite ao usuário (se for a 1ª execução):**
@@ -296,7 +297,7 @@ Se não houver Flags, escreva: "Sem flags — todos os itens têm base de estima
 - [ ] Flags presentes (ou declaração "Sem flags")?
 
 ### 4.5 — Verificação de Contexto Persistido
-- [ ] O arquivo contexto-projeto.md (neste diretório) foi atualizado (se houve calibração)?
+- [ ] O arquivo contexto-projeto.md (no diretório do projeto) foi atualizado (se houve calibração)?
 ```
 
 **Apresente o checklist ao usuário:**
@@ -365,7 +366,7 @@ Use estes critérios para classificar cada US:
 - Guia completo: `README.md` (neste diretório)
 - Análise de requisitos: `../analise-requisitos-analise-documental.md`
 - Exemplo de saída: `exemplo-saida.md` (neste diretório)
-- Contexto da equipe: `contexto-projeto.md` (neste diretório)
+- Contexto da equipe: `exemplo-contexto-projeto.md` (neste diretório)
 
 ---
 

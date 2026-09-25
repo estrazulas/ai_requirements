@@ -233,7 +233,7 @@ O documento de análise de requisitos contém todas as User Stories mapeadas. A 
 
 ## Persistência do Contexto da Equipe
 
-A skill salva as informações da equipe em `contexto-projeto.md` (neste diretório) para reutilizar em rodadas futuras de priorização.
+A skill salva as informações da equipe em `contexto-projeto.md` no diretório do projeto do usuário para reutilizar em rodadas futuras de priorização. O arquivo `exemplo-contexto-projeto.md` (dentro da pasta da skill) serve como template de referência.
 
 ### O que é persistido?
 
@@ -252,7 +252,7 @@ A skill salva as informações da equipe em `contexto-projeto.md` (neste diretó
 ```
 Skill: "Para calibrar as estimativas, preciso entender o contexto da equipe..."
 Usuário: "Velocidade: 40 pts/sprint. Volume: 20 editais/mês..."
-Skill: [Salva em contexto-projeto.md (neste diretório)]
+Skill: [Salva em contexto-projeto.md no diretório do projeto]
 ```
 
 **2ª execução (e seguintes):**
@@ -353,7 +353,7 @@ A skill identifica o problema e corrige automaticamente antes de apresentar o re
 2. **Passo 0 — Verificar contexto da equipe:**
    - Na 1ª execução: a skill coleta informações da equipe (velocidade, volume, histórico, prazos)
    - Nas próximas execuções: a skill lê o contexto salvo e pergunta se houve mudanças
-   - O contexto é persistido em `../contexto-equipe/contexto-projeto.md`
+   - O contexto é persistido em `contexto-projeto.md` no diretório do projeto
 
 3. **Passo 1 — Informe os dados do projeto:**
    - OKR do projeto
