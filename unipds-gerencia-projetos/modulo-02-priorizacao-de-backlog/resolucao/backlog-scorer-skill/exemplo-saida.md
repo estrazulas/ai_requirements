@@ -4,21 +4,40 @@ Este arquivo mostra a estrutura de diretórios com os resultados gerados após a
 
 ---
 
-## Estrutura de Diretórios
+## Estrutura de Diretórios Gerados
+
+A skill gera os seguintes arquivos no diretório `pontuacoes/` na raiz do projeto:
 
 ```
-modulo-02-priorizacao-de-backlog/
-└── resolucao/
-    ├── backlog-scorer-skill/
-    │   ├── backlog-scorer-skill.md          # Skill de priorização (RICE + WSJF)
-    │   └── README.md                         # Guia de uso da skill
-    │
-    ├── analise-requisitos-analise-documental.md   # Documento de requisitos (input)
-    │
-    ├── sprint-0-resumo-consolidado.md       # Resumo consolidado de todas as sprints
-    ├── sprint-1-2-must-have.md              # Sprints 1-2: User Stories classificadas como Must
-    ├── sprint-3-4-should-have.md            # Sprints 3-4: User Stories classificadas como Should
-    └── sprint-5-could-have.md               # Sprint 5: User Stories classificadas como Could
+[NOME DO PROJETO]/
+├── pontuacoes/
+│   ├── contexto-projeto.md              # Contexto da equipe (persistido)
+│   ├── sprint-0-resumo-consolidado.md   # Resumo consolidado de todas as sprints
+│   ├── sprint-1-2-must-have.md          # User Stories classificadas como Must
+│   ├── sprint-3-4-should-have.md        # User Stories classificadas como Should
+│   └── sprint-5-could-have.md           # User Stories classificadas como Could
+└── [outros arquivos do projeto]
+```
+
+**Exemplo real (projeto unipds-gerencia-projetos):**
+
+```
+unipds-gerencia-projetos/
+├── modulo-01-planejamento-e-escopo/
+├── modulo-02-priorizacao-de-backlog/
+│   └── resolucao/
+│       ├── backlog-scorer-skill/
+│       │   ├── backlog-scorer-skill.md
+│       │   ├── README.md
+│       │   ├── exemplo-contexto-projeto.md
+│       │   └── exemplo-saida.md
+│       └── analise-requisitos-analise-documental.md
+└── pontuacoes/                          # ← Gerado pela skill
+    ├── contexto-projeto.md
+    ├── sprint-0-resumo-consolidado.md
+    ├── sprint-1-2-must-have.md
+    ├── sprint-3-4-should-have.md
+    └── sprint-5-could-have.md
 ```
 
 ---
@@ -58,9 +77,9 @@ Contém as User Stories classificadas como **Could have**:
 
 ## Fluxo de Geração
 
-1. **Input:** Documento de requisitos (`analise-requisitos-analise-documental.md`)
+1. **Input:** Documento de requisitos (ex: `analise-requisitos-analise-documental.md`)
 2. **Skill:** Executa filtragem MoSCoW + cálculo RICE/WSJF
-3. **Output:** Arquivos de sprint organizados por prioridade
+3. **Output:** Arquivos gerados no diretório `pontuacoes/` na raiz do projeto
 
 ---
 
@@ -77,7 +96,7 @@ Use a skill backlog-scorer-skill
 #    - Calcular RICE/WSJF para Must + Should
 #    - Gerar ranking combinado
 
-# 4. Os resultados serão organizados nos arquivos de sprint
+# 4. Os resultados serão organizados no diretório pontuacoes/
 ```
 
 ---

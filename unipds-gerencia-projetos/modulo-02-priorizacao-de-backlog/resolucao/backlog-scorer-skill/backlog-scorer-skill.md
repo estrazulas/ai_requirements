@@ -14,20 +14,22 @@ Quando o usuário invocar esta skill, siga o fluxo abaixo:
 
 **Lógica:**
 ```
-SE existe arquivo contexto-projeto.md no diretório do projeto:
-    → Lê o contexto salvo
-    → Pergunta: "Houve mudanças no contexto da equipe desde a última rodada?"
-    → Se sim: atualiza o arquivo com novas informações
-    → Se não: prossegue com contexto existente
+SE existe diretório pontuacoes/ na raiz do projeto:
+    → SE existe arquivo pontuacoes/contexto-projeto.md:
+        → Lê o contexto salvo
+        → Pergunta: "Houve mudanças no contexto da equipe desde a última rodada?"
+        → Se sim: atualiza o arquivo com novas informações
+        → Se não: prossegue com contexto existente
 
 SENÃO (1ª execução):
+    → Cria diretório pontuacoes/ na raiz do projeto
     → Coleta 4 informações da equipe:
        1. Velocidade histórica (story points/sprint)
        2. Volume de usuários/transações (editais, candidatos/mês)
        3. Histórico com features similares (esforço real)
        4. Prazos externos e regulatórios (deadlines fixos)
-    → Salva em contexto-projeto.md no diretório do projeto
-    → Use exemplo-contexto-projeto.md como referência de estrutura
+    → Salva em pontuacoes/contexto-projeto.md
+    → Use exemplo-contexto-projeto.md (dentro da skill) como referência de estrutura
 ```
 
 **Solicite ao usuário (se for a 1ª execução):**
@@ -297,7 +299,7 @@ Se não houver Flags, escreva: "Sem flags — todos os itens têm base de estima
 - [ ] Flags presentes (ou declaração "Sem flags")?
 
 ### 4.5 — Verificação de Contexto Persistido
-- [ ] O arquivo contexto-projeto.md (no diretório do projeto) foi atualizado (se houve calibração)?
+- [ ] O arquivo pontuacoes/contexto-projeto.md foi atualizado (se houve calibração)?
 ```
 
 **Apresente o checklist ao usuário:**
@@ -311,7 +313,7 @@ Se não houver Flags, escreva: "Sem flags — todos os itens têm base de estima
 ✅ WSJF: 10 USs calculadas
 ✅ Consistência: Fórmulas validadas
 ✅ Output: 5 seções completas
-✅ Contexto: contexto-projeto.md atualizado
+✅ Contexto: pontuacoes/contexto-projeto.md atualizado
 
 **Resultado:** Todos os passos seguidos. Ranking pronto para revisão.
 ```
@@ -327,7 +329,7 @@ Se não houver Flags, escreva: "Sem flags — todos os itens têm base de estima
 ✅ WSJF: 10 USs calculadas
 ✅ Consistência: Fórmulas validadas
 ✅ Output: 5 seções completas
-✅ Contexto: contexto-projeto.md atualizado
+✅ Contexto: pontuacoes/contexto-projeto.md atualizado
 
 **Resultado:** Calibração incompleta. Corrigindo...
 
@@ -336,12 +338,111 @@ Se não houver Flags, escreva: "Sem flags — todos os itens têm base de estima
 
 ---
 
-### Passo 5 — Apresentar resultado
+### Passo 5 — Apresentar resultado e gerar arquivos de saída
 
 Apresente o resultado completo ao usuário e pergunte se deseja:
 - Ajustar algum valor de Impact ou Confidence
 - Incluir mais User Stories na análise
-- Exportar o resultado para um arquivo
+- Exportar o resultado para arquivos
+
+**Se o usuário confirmar a exportação, gere os seguintes arquivos no diretório `pontuacoes/`:**
+
+```
+pontuacoes/
+├── contexto-projeto.md              # Contexto da equipe (persistido)
+├── sprint-0-resumo-consolidado.md   # Resumo consolidado de todas as sprints
+├── sprint-1-2-must-have.md          # User Stories classificadas como Must
+├── sprint-3-4-should-have.md        # User Stories classificadas como Should
+└── sprint-5-could-have.md           # User Stories classificadas como Could
+```
+
+**Estrutura de cada arquivo:**
+
+**sprint-0-resumo-consolidado.md:**
+```markdown
+# Sprint 0 — Resumo Consolidado
+
+**Data:** [DATA]
+**Projeto:** [NOME DO PROJETO]
+
+## Ranking Final (RICE + WSJF)
+
+| US | Título | RICE Score | WSJF | Prioridade | Sprint |
+|----|--------|------------|------|------------|--------|
+
+## Distribuição por Categoria MoSCoW
+
+- Must: X USs (Y story points)
+- Should: X USs (Y story points)
+- Could: X USs (Y story points)
+
+## Capacidade do Time
+
+- Velocidade: X story points/sprint
+- Sprints necessárias: N sprints
+
+## Flags e Riscos
+
+[Lista de flags identificados]
+```
+
+**sprint-1-2-must-have.md:**
+```markdown
+# Sprints 1-2 — Must Have
+
+**Data:** [DATA]
+**Categoria:** Must (essencial para MVP)
+
+## User Stories
+
+### US-01 — [Título]
+- **RICE Score:** X
+- **WSJF:** X
+- **Story Points:** X
+- **Sprint:** 1
+- **Critérios de Aceite:** [lista]
+- **Dependências:** [lista]
+
+[Repetir para cada US Must]
+```
+
+**sprint-3-4-should-have.md:**
+```markdown
+# Sprints 3-4 — Should Have
+
+**Data:** [DATA]
+**Categoria:** Should (importante, mas com workaround)
+
+## User Stories
+
+[Mesma estrutura do Must]
+```
+
+**sprint-5-could-have.md:**
+```markdown
+# Sprint 5 — Could Have
+
+**Data:** [DATA]
+**Categoria:** Could (desejável se houver capacidade)
+
+## User Stories
+
+[Mesma estrutura do Must]
+```
+
+**Após gerar os arquivos, confirme ao usuário:**
+
+```
+Arquivos gerados com sucesso no diretório pontuacoes/:
+
+✅ pontuacoes/contexto-projeto.md
+✅ sprint-0-resumo-consolidado.md
+✅ sprint-1-2-must-have.md
+✅ sprint-3-4-should-have.md
+✅ sprint-5-could-have.md
+
+Total: 5 arquivos
+```
 
 ---
 

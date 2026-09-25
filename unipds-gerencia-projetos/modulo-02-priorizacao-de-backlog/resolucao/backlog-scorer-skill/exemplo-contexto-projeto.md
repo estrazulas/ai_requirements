@@ -1,5 +1,7 @@
 # Contexto da Equipe — Projeto [NOME DO PROJETO]
 
+**Localização:** Este arquivo será salvo em `pontuacoes/contexto-projeto.md` na raiz do projeto
+
 **Última atualização:** [DATA]
 
 ---

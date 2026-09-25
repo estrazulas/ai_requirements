@@ -233,7 +233,22 @@ O documento de análise de requisitos contém todas as User Stories mapeadas. A 
 
 ## Persistência do Contexto da Equipe
 
-A skill salva as informações da equipe em `contexto-projeto.md` no diretório do projeto do usuário para reutilizar em rodadas futuras de priorização. O arquivo `exemplo-contexto-projeto.md` (dentro da pasta da skill) serve como template de referência.
+A skill salva as informações da equipe em `pontuacoes/contexto-projeto.md` no diretório raiz do projeto do usuário para reutilizar em rodadas futuras de priorização. O arquivo `exemplo-contexto-projeto.md` (dentro da pasta da skill) serve como template de referência.
+
+### Estrutura de Arquivos Gerados
+
+A skill gera os seguintes arquivos no diretório `pontuacoes/` na raiz do projeto:
+
+```
+[NOME DO PROJETO]/
+├── pontuacoes/
+│   ├── contexto-projeto.md              # Contexto da equipe (persistido)
+│   ├── sprint-0-resumo-consolidado.md   # Resumo consolidado de todas as sprints
+│   ├── sprint-1-2-must-have.md          # User Stories classificadas como Must
+│   ├── sprint-3-4-should-have.md        # User Stories classificadas como Should
+│   └── sprint-5-could-have.md           # User Stories classificadas como Could
+└── [outros arquivos do projeto]
+```
 
 ### O que é persistido?
 
@@ -252,7 +267,7 @@ A skill salva as informações da equipe em `contexto-projeto.md` no diretório 
 ```
 Skill: "Para calibrar as estimativas, preciso entender o contexto da equipe..."
 Usuário: "Velocidade: 40 pts/sprint. Volume: 20 editais/mês..."
-Skill: [Salva em contexto-projeto.md no diretório do projeto]
+Skill: [Salva em pontuacoes/contexto-projeto.md na raiz do projeto]
 ```
 
 **2ª execução (e seguintes):**
@@ -319,7 +334,7 @@ Antes de apresentar o resultado final, a skill executa um checklist de qualidade
 | **Calibração** | Se calibrou: todas as USs têm valores ajustados? Se pulou: prossegue |
 | **RICE/WSJF** | Todas as USs Must + Should estão nas tabelas? Fórmulas corretas? |
 | **Output** | Todas as 5 seções presentes (RICE, WSJF, Ranking, Justificativas, Flags)? |
-| **Contexto** | contexto-projeto.md foi atualizado? |
+| **Contexto** | pontuacoes/contexto-projeto.md foi atualizado? |
 
 ### Output de verificação
 
@@ -332,7 +347,7 @@ Antes de apresentar o resultado final, a skill executa um checklist de qualidade
 ✅ WSJF: 10 USs calculadas
 ✅ Consistência: Fórmulas validadas
 ✅ Output: 5 seções completas
-✅ Contexto: contexto-projeto.md atualizado
+✅ Contexto: pontuacoes/contexto-projeto.md atualizado
 
 **Resultado:** Todos os passos seguidos. Ranking pronto para revisão.
 ```
@@ -353,7 +368,7 @@ A skill identifica o problema e corrige automaticamente antes de apresentar o re
 2. **Passo 0 — Verificar contexto da equipe:**
    - Na 1ª execução: a skill coleta informações da equipe (velocidade, volume, histórico, prazos)
    - Nas próximas execuções: a skill lê o contexto salvo e pergunta se houve mudanças
-   - O contexto é persistido em `contexto-projeto.md` no diretório do projeto
+   - O contexto é persistido em `pontuacoes/contexto-projeto.md` na raiz do projeto
 
 3. **Passo 1 — Informe os dados do projeto:**
    - OKR do projeto
@@ -380,11 +395,17 @@ A skill identifica o problema e corrige automaticamente antes de apresentar o re
    - Valida completude e consistência
    - Se algo falha: corrige automaticamente
 
-8. **Passo 5 — Apresentar resultado:**
-   - Tabelas RICE e WSJF
-   - Ranking combinado
-   - Justificativas
-   - Flags de risco/incerteza
+8. **Passo 5 — Apresentar resultado e gerar arquivos:**
+    - Tabelas RICE e WSJF
+    - Ranking combinado
+    - Justificativas
+    - Flags de risco/incerteza
+    - Geração de arquivos no diretório `pontuacoes/`:
+      - `contexto-projeto.md`
+      - `sprint-0-resumo-consolidado.md`
+      - `sprint-1-2-must-have.md`
+      - `sprint-3-4-should-have.md`
+      - `sprint-5-could-have.md`
 
 9. **Revise o output** e ajuste conforme necessário antes de publicar o ranking.
 
@@ -450,7 +471,7 @@ Se sim, mostra ajustes em tópicos por US e aguarda confirmação.
 ✅ WSJF: 10 USs calculadas
 ✅ Consistência: Fórmulas validadas
 ✅ Output: 5 seções completas
-✅ Contexto: contexto-projeto.md atualizado
+✅ Contexto: pontuacoes/contexto-projeto.md atualizado
 
 **Resultado:** Todos os passos seguidos. Ranking pronto para revisão.
 ```
