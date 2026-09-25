@@ -363,6 +363,85 @@ Após a filtragem MoSCoW, a skill pergunta se você deseja calibrar as estimativ
 | **Confidence** | Histórico com features similares | Time já fez CRUD similar → Confidence = 100%. Nunca fez visualizador PDF → Confidence = 60% |
 | **Time Criticality** | Prazos externos e regulatórios | Lei exige implementação até março/2027 → TC = 9 |
 
+### Detalhamento de cada parâmetro
+
+#### 1. Reach (Alcance) — RICE
+
+**O que é:** Quantos usuários, transações ou eventos serão afetados por mês.
+
+**Escala:** Número absoluto (sem faixa fixa — depende do contexto do produto).
+
+**Exemplos de referência:**
+- Produto com 100 usuários ativos/mês → Reach máximo = 100
+- Sistema que processa 20 editais/mês → Reach = 20
+- Feature interna usada por 5 analistas → Reach = 5
+
+**Como calibrar:** Substituir estimativa genérica pelo volume real do seu produto.
+
+---
+
+#### 2. Effort (Esforço) — RICE
+
+**O que é:** Quanto tempo uma pessoa levaria para completar a tarefa, em pessoa-mês (pm).
+
+**Escala:** Número decimal em pessoa-mês.
+
+**Conversão:**
+- 1 pm = 1 pessoa trabalhando por 1 mês (≈ 20 dias úteis)
+- 0.5 pm = 1 pessoa trabalhando por 2 semanas (≈ 10 dias úteis)
+- 0.25 pm = 1 pessoa trabalhando por 1 semana (≈ 5 dias úteis)
+
+**Tabela de conversão prática:**
+
+| Story Points | Effort (pm) | Tempo real |
+|--------------|-------------|------------|
+| 1-2 | 0.1-0.2 | 2-4 dias |
+| 3 | 0.25 | 1 semana |
+| 5 | 0.5 | 2 semanas |
+| 8 | 1.0 | 1 mês |
+| 13 | 2.0 | 2 meses |
+
+**Como calibrar:** Ajustar baseado na velocidade real do time (story points por sprint).
+
+---
+
+#### 3. Confidence (Confiança) — RICE
+
+**O que é:** Quão certo você está das estimativas de Reach, Impact e Effort. Reduz o risco de priorizar baseado em "achismo".
+
+**Escala:**
+
+| % | Significado | Quando usar |
+|---|-------------|-------------|
+| **100%** | Certeza absoluta | Requisitos claros, time já fez feature similar, dados históricos disponíveis |
+| **80%** | Alta confiança | Requisitos bem definidos, alguma experiência prévia, indicadores razoáveis |
+| **50%** | Intuição | Feature nova, sem dados históricos, dependências não mapeadas |
+| **< 50%** | Especulação | Muita incerteza, dependências externas não validadas, tecnologia desconhecida |
+
+**Na fórmula RICE:** Confidence age como um "desconto" — se você não tem certeza, o score cai proporcionalmente.
+
+**Como calibrar:** Ajustar baseado no histórico do time com features similares.
+
+---
+
+#### 4. Time Criticality (Urgência Temporal) — WSJF
+
+**O que é:** Quão urgente é entregar essa US. O valor de negócio decai com o tempo?
+
+**Escala:** 1 a 10
+
+| Valor | Significado | Exemplo |
+|-------|-------------|---------|
+| **9-10** | Deadline fixo e impreterível | Mudança na legislação (ex: LGPD), cobrança de órgão regulador (MEC, TCU), prazo de edital |
+| **7-8** | Prazo importante mas com alguma flexibilidade | Lançamento de produto, evento sazonal (matrículas, Black Friday) |
+| **5-6** | Benefício de entregar logo, mas sem pressão externa | Melhoria competitiva, redução de custo operacional |
+| **3-4** | Pode esperar sem perda significativa | Feature desejável, melhoria incremental |
+| **1-2** | Sem urgência — valor não decai com o tempo | Refatoração interna, melhoria de código |
+
+**Como calibrar:** Identificar prazos externos (legislação, reguladores, editais, eventos) e ajustar o TC.
+
+---
+
 ### Formato de output (tópicos por US)
 
 ```markdown

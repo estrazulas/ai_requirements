@@ -135,14 +135,35 @@ Use o contexto da equipe (do Passo 0) para calibrar os parâmetros:
 | Histórico com features | Confidence | Já fez → Confidence alto → RICE mais confiável |
 | Prazos externos | Time Criticality | Deadline fixo → TC alto → WSJF mais alto |
 
-**ANTES de mostrar os ajustes, explique o que é Effort (pm):**
+**ANTES de mostrar os ajustes, explique cada parâmetro calibrável:**
 
 ```
-## O que é Effort (pm)?
+## Parâmetros que serão calibrados
 
-**Effort (pm)** = **pessoa-mês** (person-month)
+Antes de mostrar os ajustes, vou explicar cada parâmetro e sua escala:
 
-É a unidade de medida de esforço no RICE Score. Representa quanto tempo uma pessoa levaria para completar a tarefa.
+---
+
+### 1. Reach (Alcance) — RICE
+
+**O que é:** Quantos usuários, transações ou eventos serão afetados por mês.
+
+**Escala:** Número absoluto (sem faixa fixa — depende do contexto do produto).
+
+**Exemplos de referência:**
+- Produto com 100 usuários ativos/mês → Reach máximo = 100
+- Sistema que processa 20 editais/mês → Reach = 20
+- Feature interna usada por 5 analistas → Reach = 5
+
+**Como calibrar:** Substituir estimativa genérica pelo volume real do seu produto.
+
+---
+
+### 2. Effort (Esforço) — RICE
+
+**O que é:** Quanto tempo uma pessoa levaria para completar a tarefa, em pessoa-mês (pm).
+
+**Escala:** Número decimal em pessoa-mês.
 
 **Conversão:**
 - 1 pm = 1 pessoa trabalhando por 1 mês (≈ 20 dias úteis)
@@ -159,17 +180,44 @@ Use o contexto da equipe (do Passo 0) para calibrar os parâmetros:
 | 8 | 1.0 | 1 mês |
 | 13 | 2.0 | 2 meses |
 
-**Por que usar pessoa-mês?**
-- Mais fácil de estimar mentalmente
-- Considera contexto, reuniões, revisões, testes (não só código)
-- Permite comparar features de naturezas diferentes
+**Como calibrar:** Ajustar baseado na velocidade real do time (story points por sprint).
 
-**Na fórmula RICE:**
-```
-RICE = (Reach × Impact × Confidence) / Effort
-```
+---
 
-Quanto maior o Effort, menor o RICE Score → menor prioridade.
+### 3. Confidence (Confiança) — RICE
+
+**O que é:** Quão certo você está das estimativas de Reach, Impact e Effort. Reduz o risco de priorizar baseado em "achismo".
+
+**Escala:**
+
+| % | Significado | Quando usar |
+|---|-------------|-------------|
+| **100%** | Certeza absoluta | Requisitos claros, time já fez feature similar, dados históricos disponíveis |
+| **80%** | Alta confiança | Requisitos bem definidos, alguma experiência prévia, indicadores razoáveis |
+| **50%** | Intuição | Feature nova, sem dados históricos, dependências não mapeadas |
+| **< 50%** | Especulação | Muita incerteza, dependências externas não validadas, tecnologia desconhecida |
+
+**Na fórmula RICE:** Confidence age como um "desconto" — se você não tem certeza, o score cai proporcionalmente.
+
+**Como calibrar:** Ajustar baseado no histórico do time com features similares.
+
+---
+
+### 4. Time Criticality (Urgência Temporal) — WSJF
+
+**O que é:** Quão urgente é entregar essa US. O valor de negócio decai com o tempo?
+
+**Escala:** 1 a 10
+
+| Valor | Significado | Exemplo |
+|-------|-------------|---------|
+| **9-10** | Deadline fixo e impreterível | Mudança na legislação (ex: LGPD), cobrança de órgão regulador (MEC, TCU), prazo de edital |
+| **7-8** | Prazo importante mas com alguma flexibilidade | Lançamento de produto, evento sazonal (matrículas, Black Friday) |
+| **5-6** | Benefício de entregar logo, mas sem pressão externa | Melhoria competitiva, redução de custo operacional |
+| **3-4** | Pode esperar sem perda significativa | Feature desejável, melhoria incremental |
+| **1-2** | Sem urgência — valor não decai com o tempo | Refatoração interna, melhoria de código |
+
+**Como calibrar:** Identificar prazos externos (legislação, reguladores, editais, eventos) e ajustar o TC.
 
 ---
 
