@@ -420,6 +420,22 @@ A skill identifica o problema e corrige automaticamente antes de apresentar o re
 
 ## Fluxo de Uso da Skill
 
+**Resumo rápido:**
+
+1. **Coleta contexto** do time (velocidade, volume, prazos) → salva em `pontuacoes/contexto-projeto.md`
+2. **Filtra com MoSCoW** → Must/Should/Could/Won't
+3. **Calibra estimativas** (opcional) → ajusta Reach, Effort, Confidence, Time Criticality
+4. **Calcula RICE + WSJF** para Must + Should + Could
+5. **Organiza em Fases** → Fase 1 (sem dependências), Fase 2 (depende da 1), etc.
+6. **Auto-verifica** → valida fórmulas, fases, completude
+7. **Exporta** → gera arquivos em `pontuacoes/` separados por categoria MoSCoW
+
+**Resultado:** ranking priorizado + ordem de implementação tecnicamente viável.
+
+---
+
+**Fluxo detalhado:**
+
 1. **Execute a skill:**
    ```
    Use a skill backlog-scorer-skill
