@@ -286,6 +286,48 @@ Retorne exatamente nesta estrutura:
 Liste os itens em ordem decrescente de prioridade, combinando RICE e WSJF.
 Para desempate, priorize o item com maior Cost of Delay (WSJF).
 
+### 3.5 Fases de Implementação
+
+Organize as USs em fases baseadas nas dependências declaradas. A ordenação topológica garante que USs dependentes não apareçam antes das USs das quais dependem.
+
+**Lógica de ordenação:**
+1. Identifique USs sem dependências → Fase 1
+2. Identifique USs que dependem apenas de USs da Fase 1 → Fase 2
+3. Repetir até todas as USs estarem em alguma fase
+4. Dentro de cada fase, ordenar por RICE Score (descendente)
+
+**Formato:**
+
+```
+### Fases de Implementação
+
+**Fase 1 — Sem Dependências** (implementar primeiro)
+| US | Título | RICE Score | WSJF | Categoria |
+|----|--------|------------|------|-----------|
+| US-XX | [Título] | X | Y | Must/Should/Could |
+
+**Fase 2 — Depende da Fase 1**
+| US | Título | RICE Score | WSJF | Categoria | Depende de |
+|----|--------|------------|------|-----------|------------|
+| US-YY | [Título] | X | Y | Must/Should/Could | US-XX, US-ZZ |
+
+**Fase 3 — Depende da Fase 2**
+[Repetir estrutura para quantas fases forem necessárias]
+
+**Resumo de Fases:**
+- Fase 1: X USs (Y story points)
+- Fase 2: X USs (Y story points)
+- Fase 3: X USs (Y story points)
+- Total: N fases
+
+**Ordem de Implementação Recomendada:**
+1. **Fase 1:** US-01, US-05, US-13 (implementar primeiro)
+2. **Fase 2:** US-06 (depois que Fase 1 estiver pronta)
+3. **Fase 3:** US-08 (depois que Fase 2 estiver pronta)
+```
+
+**Nota:** Se uma US depende de USs de múltiplas fases, ela deve ser colocada na fase imediatamente posterior à fase mais alta da qual depende.
+
 ### 4. Justificativas
 
 Para cada item, forneça:
@@ -352,10 +394,19 @@ Liste as USs classificadas como Won't que não foram incluídas no cálculo RICE
 - [ ] Tabela RICE presente?
 - [ ] Tabela WSJF presente?
 - [ ] Ranking combinado presente?
+- [ ] Fases de Implementação presentes?
 - [ ] Justificativas presentes para cada US?
 - [ ] Flags presentes (ou declaração "Sem flags")?
 
-### 4.5 — Verificação de Contexto Persistido
+### 4.5 — Verificação de Fases de Implementação
+- [ ] Todas as USs estão em alguma fase?
+- [ ] USs sem dependências estão na Fase 1?
+- [ ] USs com dependências estão em fases posteriores às suas dependências?
+- [ ] Dentro de cada fase, USs estão ordenadas por RICE Score (descendente)?
+- [ ] Não há dependências circulares (US-A depende de US-B que depende de US-A)?
+- [ ] O resumo de fases está correto (soma de USs por fase = total de USs priorizadas)?
+
+### 4.6 — Verificação de Contexto Persistido
 - [ ] O arquivo pontuacoes/contexto-projeto.md foi atualizado (se houve calibração)?
 ```
 
@@ -369,7 +420,8 @@ Liste as USs classificadas como Won't que não foram incluídas no cálculo RICE
 ✅ RICE: 16 USs calculadas (Must + Should + Could)
 ✅ WSJF: 16 USs calculadas
 ✅ Consistência: Fórmulas validadas
-✅ Output: 6 seções completas (incluindo resumo de Won't)
+✅ Fases: 3 fases identificadas (Fase 1: 3 USs, Fase 2: 2 USs, Fase 3: 1 US)
+✅ Output: 7 seções completas (incluindo fases e resumo de Won't)
 ✅ Contexto: pontuacoes/contexto-projeto.md atualizado
 
 **Resultado:** Todos os passos seguidos. Ranking pronto para revisão.
@@ -385,7 +437,8 @@ Liste as USs classificadas como Won't que não foram incluídas no cálculo RICE
 ✅ RICE: 16 USs calculadas (Must + Should + Could)
 ✅ WSJF: 16 USs calculadas
 ✅ Consistência: Fórmulas validadas
-✅ Output: 6 seções completas (incluindo resumo de Won't)
+✅ Fases: 3 fases identificadas (Fase 1: 3 USs, Fase 2: 2 USs, Fase 3: 1 US)
+✅ Output: 7 seções completas (incluindo fases e resumo de Won't)
 ✅ Contexto: pontuacoes/contexto-projeto.md atualizado
 
 **Resultado:** Calibração incompleta. Corrigindo...
@@ -424,8 +477,33 @@ pontuacoes/
 
 ## Ranking Final (RICE + WSJF)
 
-| US | Título | RICE Score | WSJF | Prioridade | Sprint |
-|----|--------|------------|------|------------|--------|
+| US | Título | RICE Score | WSJF | Prioridade | Fase |
+|----|--------|------------|------|------------|------|
+
+## Fases de Implementação
+
+### Fase 1 — Sem Dependências (implementar primeiro)
+| US | Título | RICE Score | WSJF | Categoria | Story Points |
+|----|--------|------------|------|-----------|--------------|
+
+### Fase 2 — Depende da Fase 1
+| US | Título | RICE Score | WSJF | Categoria | Story Points | Depende de |
+|----|--------|------------|------|-----------|--------------|------------|
+
+### Fase 3 — Depende da Fase 2
+[Repetir estrutura para quantas fases forem necessárias]
+
+**Resumo de Fases:**
+- Fase 1: X USs (Y story points)
+- Fase 2: X USs (Y story points)
+- Fase 3: X USs (Y story points)
+- Total: N fases
+
+## Ordem de Implementação Recomendada
+
+1. **Fase 1:** US-01, US-05, US-13 (implementar primeiro)
+2. **Fase 2:** US-06 (depois que Fase 1 estiver pronta)
+3. **Fase 3:** US-08 (depois que Fase 2 estiver pronta)
 
 ## Distribuição por Categoria MoSCoW
 
@@ -456,11 +534,23 @@ pontuacoes/
 - **RICE Score:** X
 - **WSJF:** X
 - **Story Points:** X
-- **Sprint:** 1
+- **Fase de Implementação:** 1
 - **Critérios de Aceite:** [lista]
 - **Dependências:** [lista]
 
 [Repetir para cada US Must]
+
+## Resumo por Fase
+
+### Fase 1 — Sem Dependências
+| US | Título | RICE | WSJF | SP |
+|----|--------|------|------|----|
+
+### Fase 2 — Depende da Fase 1
+| US | Título | RICE | WSJF | SP | Depende de |
+|----|--------|------|------|----|------------|
+
+[Repetir para quantas fases forem necessárias]
 ```
 
 **sprint-3-4-should-have.md:**
@@ -471,6 +561,18 @@ pontuacoes/
 **Categoria:** Should (importante, mas com workaround)
 
 ## User Stories
+
+### US-XX — [Título]
+- **RICE Score:** X
+- **WSJF:** X
+- **Story Points:** X
+- **Fase de Implementação:** N
+- **Critérios de Aceite:** [lista]
+- **Dependências:** [lista]
+
+[Repetir para cada US Should]
+
+## Resumo por Fase
 
 [Mesma estrutura do Must]
 ```
@@ -483,6 +585,18 @@ pontuacoes/
 **Categoria:** Could (desejável se houver capacidade)
 
 ## User Stories
+
+### US-XX — [Título]
+- **RICE Score:** X
+- **WSJF:** X
+- **Story Points:** X
+- **Fase de Implementação:** N
+- **Critérios de Aceite:** [lista]
+- **Dependências:** [lista]
+
+[Repetir para cada US Could]
+
+## Resumo por Fase
 
 [Mesma estrutura do Must]
 ```

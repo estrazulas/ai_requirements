@@ -181,6 +181,66 @@ WSJF = 23 / 2 = 11.5
 
 ---
 
+## O que são Fases de Implementação?
+
+RICE e WSJF medem **valor de negócio**, mas não consideram **dependências técnicas** entre USs. Isso pode gerar rankings onde uma US dependente aparece antes da US da qual depende — o que não faz sentido na prática.
+
+**Exemplo do problema:**
+
+```
+Ranking por RICE (sem considerar dependências):
+1. US-06 (RICE: 5333.33) - Depende de US-01, US-05
+2. US-08 (RICE: 2400.00) - Depende de US-06, US-13
+3. US-05 (RICE: 200.00)  - Sem dependências
+4. US-01 (RICE: 150.00)  - Sem dependências
+5. US-13 (RICE: 52.50)   - Sem dependências
+```
+
+**Isso não faz sentido!** Você não pode implementar US-06 antes de US-01 e US-05 existirem.
+
+### Solução: Fases de Implementação
+
+A skill organiza as USs em **fases** baseadas nas dependências declaradas, usando ordenação topológica:
+
+- **Fase 1:** USs sem dependências (implementar primeiro)
+- **Fase 2:** USs que dependem apenas da Fase 1
+- **Fase 3:** USs que dependem da Fase 2
+- E assim por diante...
+
+**Dentro de cada fase**, as USs são ordenadas por RICE Score (descendente).
+
+**Exemplo corrigido:**
+
+```
+Fase 1 — Sem Dependências (implementar primeiro):
+- US-05 (RICE: 200.00)
+- US-01 (RICE: 150.00)
+- US-13 (RICE: 52.50)
+
+Fase 2 — Depende da Fase 1:
+- US-06 (RICE: 5333.33) — depende de US-01, US-05
+
+Fase 3 — Depende da Fase 2:
+- US-08 (RICE: 2400.00) — depende de US-06, US-13
+```
+
+**Ordem de implementação recomendada:**
+1. **Fase 1:** US-05 → US-01 → US-13
+2. **Fase 2:** US-06
+3. **Fase 3:** US-08
+
+### Como funciona a lógica
+
+1. Ler as dependências declaradas em cada US
+2. Identificar USs sem dependências → Fase 1
+3. Identificar USs que dependem apenas de USs da Fase 1 → Fase 2
+4. Repetir até todas as USs estarem em alguma fase
+5. Dentro de cada fase, ordenar por RICE Score
+
+**Nota:** Se uma US depende de USs de múltiplas fases, ela é colocada na fase imediatamente posterior à fase mais alta da qual depende.
+
+---
+
 ## O que inserir no Backlog Scorer?
 
 ### 1. CONTEXTO DE NEGÓCIO
@@ -386,27 +446,30 @@ A skill identifica o problema e corrige automaticamente antes de apresentar o re
    - Se sim: ajusta Reach, Effort, Confidence e Time Criticality
    - Se não: usa as estimativas originais
 
-6. **Passo 3 — Cálculo RICE/WSJF:**
+6. **Passo 3 — Cálculo RICE/WSJF e Fases de Implementação:**
     - Calcula RICE Score e WSJF para Must + Should + Could
     - Exclui apenas Won't do cálculo
     - Gera ranking combinado
+    - **Organiza USs em Fases de Implementação** baseadas nas dependências declaradas
+    - Dentro de cada fase, ordena por RICE Score
 
 7. **Passo 4 — Auto-Verificação:**
-   - A skill executa um checklist de qualidade
-   - Valida completude e consistência
-   - Se algo falha: corrige automaticamente
+    - A skill executa um checklist de qualidade
+    - Valida completude, consistência e fases
+    - Se algo falha: corrige automaticamente
 
 8. **Passo 5 — Apresentar resultado e gerar arquivos:**
     - Tabelas RICE e WSJF
     - Ranking combinado
+    - **Fases de Implementação** (ordenação topológica)
     - Justificativas
     - Flags de risco/incerteza
     - Geração de arquivos no diretório `pontuacoes/`:
       - `contexto-projeto.md`
-      - `sprint-0-resumo-consolidado.md`
-      - `sprint-1-2-must-have.md`
-      - `sprint-3-4-should-have.md`
-      - `sprint-5-could-have.md`
+      - `sprint-0-resumo-consolidado.md` (inclui fases)
+      - `sprint-1-2-must-have.md` (inclui fases)
+      - `sprint-3-4-should-have.md` (inclui fases)
+      - `sprint-5-could-have.md` (inclui fases)
 
 9. **Revise o output** e ajuste conforme necessário antes de publicar o ranking.
 
@@ -471,7 +534,8 @@ Se sim, mostra ajustes em tópicos por US e aguarda confirmação.
 ✅ RICE: 16 USs calculadas (Must + Should + Could)
 ✅ WSJF: 16 USs calculadas
 ✅ Consistência: Fórmulas validadas
-✅ Output: 6 seções completas (incluindo resumo de Won't)
+✅ Fases: 3 fases identificadas (Fase 1: 3 USs, Fase 2: 2 USs, Fase 3: 1 US)
+✅ Output: 7 seções completas (incluindo fases e resumo de Won't)
 ✅ Contexto: pontuacoes/contexto-projeto.md atualizado
 
 **Resultado:** Todos os passos seguidos. Ranking pronto para revisão.
@@ -481,8 +545,34 @@ Se sim, mostra ajustes em tópicos por US e aguarda confirmação.
 - Tabela RICE com Reach, Impact, Confidence, Effort e Score
 - Tabela WSJF com Business Value, Time Criticality, Risk Reduction, Cost of Delay, Job Size e WSJF
 - Ranking combinado em ordem decrescente
+- **Fases de Implementação** (ordenação topológica baseada em dependências)
 - Justificativas para Impact e Confidence
 - Flags para itens com incerteza alta
+
+**Exemplo de Fases de Implementação:**
+```
+### Fase 1 — Sem Dependências (implementar primeiro)
+| US | Título | RICE Score | WSJF | Categoria |
+|----|--------|------------|------|-----------|
+| US-05 | Tipo de documento com pontuação | 200.00 | 21.00 | Must |
+| US-01 | Critério AD no edital | 150.00 | 11.00 | Must |
+| US-13 | Perfil Analista de Documento | 52.50 | 7.00 | Must |
+
+### Fase 2 — Depende da Fase 1
+| US | Título | RICE Score | WSJF | Categoria | Depende de |
+|----|--------|------------|------|-----------|------------|
+| US-06 | Candidato declara pontuação | 5333.33 | 5.00 | Must | US-01, US-05 |
+
+### Fase 3 — Depende da Fase 2
+| US | Título | RICE Score | WSJF | Categoria | Depende de |
+|----|--------|------------|------|-----------|------------|
+| US-08 | Analista pontua documentos | 2400.00 | 3.29 | Must | US-06, US-13 |
+
+**Ordem de Implementação Recomendada:**
+1. **Fase 1:** US-05 → US-01 → US-13
+2. **Fase 2:** US-06 (depois que Fase 1 estiver pronta)
+3. **Fase 3:** US-08 (depois que Fase 2 estiver pronta)
+```
 
 ---
 
