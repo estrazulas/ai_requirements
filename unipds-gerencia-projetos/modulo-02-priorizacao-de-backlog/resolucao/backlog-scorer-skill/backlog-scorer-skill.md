@@ -135,6 +135,64 @@ Use o contexto da equipe (do Passo 0) para calibrar os parâmetros:
 | Histórico com features | Confidence | Já fez → Confidence alto → RICE mais confiável |
 | Prazos externos | Time Criticality | Deadline fixo → TC alto → WSJF mais alto |
 
+**ESCALA DE COMPLEXIDADE POR TIPO DE USER STORY:**
+
+Nem todas as User Stories são iguais. Use esta escala para estimar Effort baseado no tipo de funcionalidade:
+
+**Resumo Consolidado:**
+
+| Categoria | Simples | Médio | Complexo |
+|-----------|---------|-------|----------|
+| **CRUDs / Cadastros** | 0.2 | 0.3-0.4 | 0.5-0.6 |
+| **Telas de Processamento** | 0.2-0.3 | 0.4-0.5 | 0.8-1.2 |
+| **Entrada de Dados** | 0.2 | 0.3-0.4 | 0.5-0.6 |
+| **Listas e Relatórios** | 0.2 | 0.3-0.5 | 0.5-0.7 |
+| **Portal / Autoatendimento** | 0.2 | 0.3-0.4 | 0.5-0.6 |
+
+**Detalhamento por Categoria:**
+
+**1. CRUDs / Cadastros** (formulários de criação/edição de entidades)
+| Tipo | Esforço (pm) | Características |
+|------|--------------|-----------------|
+| Simples | 0.2 | 1-2 campos, sem validação complexa |
+| Médio | 0.3-0.4 | 3-5 campos, validações simples, campos condicionais |
+| Complexo | 0.5-0.6 | Muitos campos, validações complexas, cálculos |
+
+**2. Telas de Processamento / Análise** (usuário analisa e toma decisão sobre dados)
+| Tipo | Esforço (pm) | Características |
+|------|--------------|-----------------|
+| Simples | 0.2-0.3 | 1-2 campos de entrada, sem visualização complexa |
+| Médio | 0.4-0.5 | Múltiplos campos, cálculo automático, validações |
+| Complexo | 0.8-1.2 | Visualizador (PDF/imagens/docs), cálculo ponderado, auditoria |
+
+**3. Fluxos com Entrada de Dados e Validação** (formulários, uploads, importações)
+| Tipo | Esforço (pm) | Características |
+|------|--------------|-----------------|
+| Simples | 0.2 | Entrada única, sem validação de negócio |
+| Médio | 0.3-0.4 | Entrada + validação simples (formato, tamanho) |
+| Complexo | 0.5-0.6 | Entrada + validações de negócio + cálculo em tempo real |
+
+**4. Visualizações Tabulares e Relatórios** (listas, dashboards, exportações)
+| Tipo | Esforço (pm) | Características |
+|------|--------------|-----------------|
+| Simples | 0.2 | Lista simples, sem edição, sem filtros |
+| Médio | 0.3-0.5 | Lista com edição inline, filtros, ordenação |
+| Complexo | 0.5-0.7 | Lista editável + auditoria + exportação múltiplos formatos |
+
+**5. Interfaces de Autoatendimento / Portal do Usuário** (usuário final interage com o sistema)
+| Tipo | Esforço (pm) | Características |
+|------|--------------|-----------------|
+| Simples | 0.2 | Exibição de dados, sem lógica condicional |
+| Médio | 0.3-0.4 | Lógica condicional baseada em datas/status/permissões |
+| Complexo | 0.5-0.6 | Formulário interativo + upload + controle de prazo/estado |
+
+**Critérios para classificar complexidade:**
+- **Número de campos:** 1-2 (simples), 3-5 (médio), 6+ (complexo)
+- **Validações:** Nenhuma/pouca (simples), regras de negócio simples (médio), cálculos/dependências (complexo)
+- **Campos condicionais:** Nenhum (simples), alguns (médio), muitos com lógica (complexo)
+- **Integrações:** Nenhuma (simples), vínculo a 1 entidade (médio), múltiplas dependências (complexo)
+- **Visualização:** Sem visualizador (simples/médio), visualizador de documentos (complexo)
+
 **ANTES de mostrar os ajustes, explique cada parâmetro calibrável:**
 
 ```
