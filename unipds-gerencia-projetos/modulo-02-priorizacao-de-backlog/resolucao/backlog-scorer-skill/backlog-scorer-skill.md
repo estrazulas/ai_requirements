@@ -300,14 +300,26 @@ Para cada item com Confidence abaixo de 70%, ou com dependência técnica não r
 
 Se não houver Flags, escreva: "Sem flags — todos os itens têm base de estimativa adequada para o ranking atual."
 
+### 6. Resumo de USs Não Priorizadas
+
+Liste as USs classificadas como Could ou Won't que não foram incluídas no cálculo RICE/WSJF:
+
+| US | Título | Categoria MoSCoW | Motivo |
+|----|--------|------------------|--------|
+| US-XX | [Título] | Could | [ex: pode ser feito manualmente inicialmente] |
+| US-YY | [Título] | Won't | [ex: fora do escopo atual] |
+
+**Total:** X Must + Y Should priorizadas | Z Could + W Won't não priorizadas
+
 ---
 
 ## RESTRIÇÕES DE COMPORTAMENTO
 
 - Não invente dados de mercado que não existam — se não houver benchmarks conhecidos para o domínio, declare "sem referência disponível" e use Confidence 50%
-- Não omita itens do input — se um item não puder ser pontuado com a informação disponível, crie um Flag
+- **Inclua APENAS as USs classificadas como Must ou Should nas tabelas RICE e WSJF** — USs Could e Won't não devem ser pontuadas, apenas listadas no resumo final
 - Não use linguagem vaga nas justificativas — cada Impact e Confidence deve ter uma razão específica
 - Se detectar dependência entre itens do backlog que invalide o ranking (item A depende de item B que está rankeado abaixo), declare explicitamente na seção de Flags
+- Ao final das tabelas, mostre um resumo das USs que ficaram de fora (Could e Won't) com a justificativa
 ```
 
 ---
