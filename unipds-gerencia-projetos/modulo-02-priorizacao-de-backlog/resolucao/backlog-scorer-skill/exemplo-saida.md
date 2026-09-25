@@ -19,19 +19,12 @@ A skill gera os seguintes arquivos no diretório `pontuacoes/` na raiz do projet
 └── [outros arquivos do projeto]
 ```
 
-**Exemplo real (projeto unipds-gerencia-projetos):**
+**Exemplo real:**
 
 ```
-unipds-gerencia-projetos/
-├── modulo-01-planejamento-e-escopo/
-├── modulo-02-priorizacao-de-backlog/
-│   └── resolucao/
-│       ├── backlog-scorer-skill/
-│       │   ├── backlog-scorer-skill.md
-│       │   ├── README.md
-│       │   ├── exemplo-contexto-projeto.md
-│       │   └── exemplo-saida.md
-│       └── analise-requisitos-analise-documental.md
+raiz_projeto/
+├── [outros diretórios do projeto]/
+├── [documentos de requisitos].md
 └── pontuacoes/                          # ← Gerado pela skill
     ├── contexto-projeto.md
     ├── sprint-0-resumo-consolidado.md
