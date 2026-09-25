@@ -269,13 +269,17 @@ Retorne exatamente nesta estrutura:
 
 ### 1. Tabela RICE
 
-| Item | Reach | Impact | Confidence | Effort (pm) | RICE Score |
-|------|-------|--------|------------|-------------|------------|
+| US | Título | Categoria MoSCoW | Reach | Impact | Confidence | Effort (pm) | RICE Score |
+|----|--------|------------------|-------|--------|------------|-------------|------------|
+
+**Nota:** A coluna "Categoria MoSCoW" deve mostrar Must, Should, Could ou Won't conforme a filtragem do Passo 2.
 
 ### 2. Tabela WSJF
 
-| Item | BV | TC | RR | CoD | Job Size | WSJF |
-|------|----|----|----|-----|----------|------|
+| US | Título | Categoria MoSCoW | BV | TC | RR | CoD | Job Size | WSJF |
+|----|--------|------------------|----|----|----|-----|----------|------|
+
+**Nota:** A coluna "Categoria MoSCoW" deve mostrar Must, Should, Could ou Won't conforme a filtragem do Passo 2.
 
 ### 3. Ranking Combinado
 
