@@ -613,7 +613,7 @@ Cenário: Visualizar após data de publicação — eliminado
 **Feature:** Critério de seleção e pesos
 **Título:** Como profissional da [SETOR SOLICITANTE], quero selecionar "Análise Documental" como critério de seleção no edital
 **Tipo:** Story
-**Story Points:** 3 — extensão de combobox + validação de exclusividade com "Importação da classificação"
+**Story Points:** 2 — CRUD simples: extensão de combobox + validação de exclusividade
 **Sprint:** a definir
 **Component/s:** edital, processo-seletivo
 **Labels:** gestao-processos, complexidade-P
@@ -642,7 +642,7 @@ Cenário: Editar edital existente com critério já definido
 **Feature:** Pesos de entrevista
 **Título:** Como profissional da [SETOR SOLICITANTE], quero definir os pesos de análise documental e entrevista
 **Tipo:** Story
-**Story Points:** 2 — campos condicionais + validação de soma 100%
+**Story Points:** 3 — CRUD simples: campos condicionais + validação de soma 100%
 **Sprint:** a definir
 **Component/s:** edital
 **Labels:** gestao-processos, complexidade-P
@@ -670,7 +670,7 @@ Cenário: Pesos não somam 100%
 **Feature:** Calendário por edital
 **Título:** Como profissional da [SETOR SOLICITANTE], quero cadastrar calendário de etapa com escopo "por edital"
 **Tipo:** Story
-**Story Points:** 3 — CRUD com validação de datas e vínculo a edital
+**Story Points:** 5 — CRUD médio: validação de datas e vínculo a edital
 **Sprint:** a definir
 **Component/s:** calendario, edital
 **Labels:** calendario, complexidade-P
@@ -698,7 +698,7 @@ Cenário: Data de publicação anterior à data de fim
 **Feature:** Calendário por curso/oferta
 **Título:** Como profissional da [SETOR SOLICITANTE], quero cadastrar calendários com escopo "por curso/oferta"
 **Tipo:** Story
-**Story Points:** 3 — CRUD com vínculo a oferta ao invés de edital
+**Story Points:** 5 — CRUD médio: vínculo a oferta ao invés de edital
 **Sprint:** a definir
 **Component/s:** calendario, oferta
 **Labels:** calendario, complexidade-P
@@ -726,7 +726,7 @@ Cenário: Edital com 3 cursos tem 3 calendários distintos
 **Feature:** Configuração de tipos de documento
 **Título:** Como administrador, quero marcar tipo de documento com "Requer pontuação?" e definir teto
 **Tipo:** Story
-**Story Points:** 2 — extensão do CRUD existente de tipos de documento
+**Story Points:** 2 — CRUD simples: extensão do CRUD existente de tipos de documento
 **Sprint:** a definir
 **Component/s:** tipos-documento, parametros
 **Labels:** documentos, complexidade-P
@@ -753,7 +753,7 @@ Cenário: Tipo sem pontuação
 **Feature:** Declaração de pontuação pelo candidato
 **Título:** Como candidato, quero declarar pontuação para cada documento e ver a soma acumulada
 **Tipo:** Story
-**Story Points:** 5 — upload, validação de tetos, cálculo em tempo real
+**Story Points:** 8 — Entrada de dados complexa: upload, validação de tetos, cálculo em tempo real
 **Sprint:** a definir
 **Component/s:** inscricao, documentos
 **Labels:** inscricao, complexidade-M
@@ -785,7 +785,7 @@ Cenário: Pontuação ultrapassa teto do tipo
 **Feature:** Alteração dentro do prazo
 **Título:** Como candidato, quero alterar documentos e pontuações dentro do prazo de inscrição
 **Tipo:** Story
-**Story Points:** 3 — controle de edição baseado em data
+**Story Points:** 5 — Entrada de dados média: controle de edição baseado em data
 **Sprint:** a definir
 **Component/s:** inscricao
 **Labels:** inscricao, complexidade-P
@@ -812,7 +812,7 @@ Cenário: Tentar alterar após prazo
 **Feature:** Pontuação de documentos
 **Título:** Como analista, quero atribuir pontuação documental e justificativa obrigatória a cada candidato
 **Tipo:** Story
-**Story Points:** 8 — tela complexa com visualizador PDF, cálculo, auditoria
+**Story Points:** 13 — Tela de processamento complexa: visualizador PDF, cálculo ponderado, auditoria
 **Sprint:** a definir
 **Component/s:** analise-documental
 **Labels:** analise, complexidade-G
@@ -839,7 +839,7 @@ Cenário: Salvar sem justificativa
 **Feature:** Pontuação de entrevista
 **Título:** Como analista, quero atribuir pontuação de entrevista com justificativa
 **Tipo:** Story
-**Story Points:** 3 — campo condicional + cálculo ponderado
+**Story Points:** 3 — Tela de processamento simples: campo condicional + cálculo ponderado
 **Sprint:** a definir
 **Component/s:** analise-documental
 **Labels:** analise, complexidade-P
@@ -866,7 +866,7 @@ Cenário: Edital sem entrevista
 **Feature:** Desclassificação
 **Título:** Como analista, quero desclassificar candidato informando motivo
 **Tipo:** Story
-**Story Points:** 2 — campo de motivo + confirmação
+**Story Points:** 2 — Tela de processamento simples: campo de motivo + confirmação
 **Sprint:** a definir
 **Component/s:** analise-documental
 **Labels:** analise, complexidade-P
@@ -893,7 +893,7 @@ Cenário: Desclassificar sem motivo
 **Feature:** Lista de classificação editável
 **Título:** Como [SETOR SOLICITANTE], quero visualizar lista com pontuação final e editar manualmente com justificativa
 **Tipo:** Story
-**Story Points:** 5 — lista tabular, edição inline, auditoria
+**Story Points:** 8 — Lista/Relatório complexo: lista editável, auditoria, classificação manual
 **Sprint:** a definir
 **Component/s:** classificacao
 **Labels:** classificacao, complexidade-M
@@ -920,7 +920,7 @@ Cenário: Editar sem justificativa
 **Feature:** Exportação de classificação
 **Título:** Como [SETOR SOLICITANTE], quero exportar classificação em CSV e HTML
 **Tipo:** Story
-**Story Points:** 3 — geração de arquivos formatados
+**Story Points:** 5 — Lista/Relatório médio: geração de arquivos CSV e HTML formatados
 **Sprint:** a definir
 **Component/s:** classificacao, relatorios
 **Labels:** relatorios, complexidade-P
@@ -947,7 +947,7 @@ Cenário: Exportar HTML
 **Feature:** Perfil e permissões
 **Título:** Como administrador, quero cadastrar usuários com perfil "Analista de Documento" vinculado a ofertas
 **Tipo:** Story
-**Story Points:** 3 — novo perfil + vinculação a oferta
+**Story Points:** 5 — CRUD médio: novo perfil + vinculação a oferta
 **Sprint:** a definir
 **Component/s:** usuarios, permissoes
 **Labels:** permissoes, complexidade-P
@@ -974,7 +974,7 @@ Cenário: Analista tenta acessar administração
 **Feature:** Interposição de recurso
 **Título:** Como candidato, quero interpor recurso pelo portal com justificativa e PDF
 **Tipo:** Story
-**Story Points:** 3 — formulário no portal + upload + controle de prazo
+**Story Points:** 5 — Portal médio: formulário + upload + controle de prazo
 **Sprint:** a definir
 **Component/s:** portal-candidato, recurso
 **Labels:** recurso, complexidade-P
@@ -1001,7 +1001,7 @@ Cenário: Tentar recurso fora do prazo
 **Feature:** Julgamento de recurso
 **Título:** Como analista, quero julgar recurso visualizando todos os dados em uma tela única
 **Tipo:** Story
-**Story Points:** 5 — tela com documentos originais, recurso, decisão e recálculo
+**Story Points:** 8 — Tela de processamento média: múltiplas visualizações + decisão + recálculo
 **Sprint:** a definir
 **Component/s:** analise-documental, recurso
 **Labels:** recurso, complexidade-M
@@ -1028,7 +1028,7 @@ Cenário: Indeferir recurso
 **Feature:** Visualização no portal
 **Título:** Como candidato, quero visualizar pontuação final e status no portal respeitando datas de publicação
 **Tipo:** Story
-**Story Points:** 3 — lógica condicional baseada em calendário
+**Story Points:** 5 — Portal médio: lógica condicional baseada em calendário
 **Sprint:** a definir
 **Component/s:** portal-candidato
 **Labels:** portal, complexidade-P
