@@ -1,0 +1,262 @@
+Summary,Issue Type,Priority,Description,Story Points,Epic Name,Epic Link,Sprint,Labels,Component/s
+[EPIC] Configuração de Edital com Análise Documental,Epic,High,Permitir cadastrar editais com critério Análise Documental pesos de entrevista pontuação máxima e checkboxes de etapas.,,Configuração de Edital com Análise Documental,,,,
+[EPIC] Gestão de Calendários de Etapas,Epic,High,CRUD de calendários por edital ou por curso/oferta com vinculação a etapas do processo seletivo.,,Gestão de Calendários de Etapas,,,,
+[EPIC] Inscrição com Pontuação Declarada,Epic,High,Candidato envia documentos com pontuação sistema valida tetos e bloqueia excesso.,,Inscrição com Pontuação Declarada,,,,
+[EPIC] Análise e Classificação Documental,Epic,Highest,Analista pontua documentos calcula pontuação final com pesos desclassifica corrige pontuação manualmente.,,Análise e Classificação Documental,,,,
+[EPIC] Recurso da Análise Documental,Epic,High,Candidato interpõe recurso via portal analista julga com nova pontuação.,,Recurso da Análise Documental,,,,
+[EPIC] Perfil Analista de Documento,Epic,Medium,Novo perfil com permissões restritas a cursos/ofertas vinculados.,,Perfil Analista de Documento,,,,
+US-01 | Cadastrar critério Análise Documental no edital,Story,High,"Como profissional da [SETOR SOLICITANTE] quero selecionar Análise Documental como critério de seleção no cadastro do edital para que o sistema habilite o fluxo de análise documental para aquele processo seletivo.
+
+Critérios de aceite:
+Cenário: Selecionar Análise Documental como critério
+  Dado que estou no cadastro de um novo edital
+  Quando seleciono Análise Documental no campo critério de seleção
+  Então o sistema salva o critério como Análise Documental
+  E o campo Pontuação máxima total torna-se obrigatório
+
+Cenário: Editar edital existente com critério já definido
+  Dado que o edital já possui critério Importação da classificação
+  Quando tento alterar para Análise Documental
+  Então o sistema exibe alerta sobre desconsideração de dados importados
+  E ao confirmar o critério é alterado
+
+Dependências: Nenhuma
+Definition of Ready: ✅ INVEST validado",3,,[EPIC] Configuração de Edital com Análise Documental,,gestao-processos complexidade-P,edital processo-seletivo
+US-02 | Configurar pesos de entrevista no edital,Story,High,"Como profissional da [SETOR SOLICITANTE] quero definir os pesos de análise documental e entrevista em percentuais ao cadastrar um edital com entrevista para que o sistema calcule automaticamente a pontuação final ponderada.
+
+Critérios de aceite:
+Cenário: Configurar pesos quando edital terá entrevista
+  Dado que marquei Terá entrevista?
+  Quando informo peso 60% para análise documental e 40% para entrevista
+  Então o sistema valida que a soma é 100%
+  E salva os pesos vinculados ao edital
+
+Cenário: Pesos não somam 100%
+  Dado que estou configurando os pesos
+  Quando informo 50% e 40%
+  Então o sistema exibe erro A soma dos pesos deve ser 100%
+
+Dependências: US-01
+Definition of Ready: ✅ INVEST validado",2,,[EPIC] Configuração de Edital com Análise Documental,,gestao-processos complexidade-P,edital
+US-03 | Cadastrar calendário de etapa por edital,Story,High,"Como profissional da [SETOR SOLICITANTE] quero cadastrar um calendário de etapa com escopo por edital para que todas as ofertas do edital compartilhem as mesmas datas de início fim e publicação.
+
+Critérios de aceite:
+Cenário: Cadastrar calendário por edital
+  Dado que estou no cadastro de calendário
+  Quando seleciono tipo Análise Documental escopo Por edital
+  E informo início fim e publicação
+  Então o sistema salva o calendário vinculado ao edital
+
+Cenário: Data de publicação anterior à data de fim
+  Dado que estou cadastrando um calendário
+  Quando informo data de publicação anterior à data de fim
+  Então o sistema exibe erro e não permite salvar
+
+Dependências: Nenhuma
+Definition of Ready: ✅ INVEST validado",3,,[EPIC] Gestão de Calendários de Etapas,,calendario complexidade-P,calendario edital
+US-04 | Cadastrar calendário de etapa por curso/oferta,Story,High,"Como profissional da [SETOR SOLICITANTE] quero cadastrar calendários com escopo por curso/oferta para que cada oferta de um edital possa ter datas distintas.
+
+Critérios de aceite:
+Cenário: Cadastrar calendário por oferta
+  Dado que estou no cadastro de calendário
+  Quando seleciono escopo Por curso/oferta e uma oferta específica
+  E informo datas
+  Então o sistema salva o calendário vinculado à oferta
+
+Cenário: Edital com 3 cursos tem 3 calendários distintos
+  Dado um edital com 3 ofertas
+  Quando cadastro 3 calendários por curso para Análise Documental
+  Então cada oferta possui seu calendário independente
+
+Dependências: Nenhuma
+Definition of Ready: ✅ INVEST validado",3,,[EPIC] Gestão de Calendários de Etapas,,calendario complexidade-P,calendario oferta
+US-05 | Configurar tipo de documento com pontuação,Story,High,"Como administrador quero marcar tipo de documento com Requer pontuação? e definir teto para que apenas documentos pontuáveis exibam campo de pontuação na inscrição.
+
+Critérios de aceite:
+Cenário: Ativar pontuação em tipo de documento
+  Dado que estou no cadastro de Tipos de Documento
+  Quando marco Requer pontuação? e defino teto de 30 pontos
+  Então o sistema salva a configuração
+
+Cenário: Tipo sem pontuação
+  Dado que RG não está marcado com Requer pontuação?
+  Quando o candidato visualiza o formulário
+  Então RG aparece sem campo de pontuação
+
+Dependências: Nenhuma
+Definition of Ready: ✅ INVEST validado",2,,[EPIC] Inscrição com Pontuação Declarada,,documentos complexidade-P,tipos-documento parametros
+US-06 | Candidato declara pontuação ao enviar documentos,Story,Highest,"Como candidato quero declarar pontuação para cada documento e ver a soma acumulada para que o sistema valide contra o teto do edital e eu tenha transparência da minha pontuação.
+
+Critérios de aceite:
+Cenário: Declarar pontuação dentro do teto
+  Dado que estou no formulário com teto 100
+  Quando declaro 30 pts artigo e 15 pts extensão
+  Então o sistema exibe Soma atual: 45 de 100
+
+Cenário: Soma ultrapassa teto do edital
+  Dado que a soma é 90 de 100
+  Quando tento declarar 20 pts para novo documento
+  Então o sistema bloqueia o envio
+
+Cenário: Pontuação ultrapassa teto do tipo
+  Dado que Artigo tem teto 30
+  Quando declaro 35 pts
+  Então o sistema exibe erro e não permite salvar
+
+Dependências: US-01 US-05
+Definition of Ready: ✅ INVEST validado",5,,[EPIC] Inscrição com Pontuação Declarada,,inscricao complexidade-M,inscricao documentos
+US-07 | Candidato altera documentos e pontuação dentro do prazo,Story,High,"Como candidato quero alterar documentos e pontuações dentro do prazo de inscrição para que eu possa corrigir informações antes do encerramento.
+
+Critérios de aceite:
+Cenário: Alterar dentro do prazo
+  Dado que o prazo está aberto
+  Quando altero arquivo e pontuação
+  Então o sistema salva e recalcula a soma
+
+Cenário: Tentar alterar após prazo
+  Dado que o prazo encerrou
+  Quando tento acessar o formulário
+  Então o sistema exibe mensagem e campos ficam somente leitura
+
+Dependências: US-06
+Definition of Ready: ✅ INVEST validado",3,,[EPIC] Inscrição com Pontuação Declarada,,inscricao complexidade-P,inscricao
+US-08 | Analista pontua documentos do candidato,Story,Highest,"Como analista quero atribuir pontuação documental e justificativa obrigatória a cada candidato para que a classificação seja baseada em critérios auditáveis.
+
+Critérios de aceite:
+Cenário: Pontuar com justificativa
+  Dado que sou analista vinculado ao curso
+  Quando informo pontuação 75 e justificativa
+  Então o sistema salva com registro de autor e data
+
+Cenário: Salvar sem justificativa
+  Dado que estou na tela de análise
+  Quando deixo justificativa em branco
+  Então o sistema exibe erro e não permite salvar
+
+Dependências: US-06 US-13
+Definition of Ready: ⚠️ Pendente: visualizador PDF inline precisa validação técnica",8,,[EPIC] Análise e Classificação Documental,,analise complexidade-G,analise-documental
+US-09 | Analista pontua entrevista do candidato,Story,High,"Como analista quero atribuir pontuação de entrevista com justificativa para que a pontuação final seja calculada com os pesos do edital.
+
+Critérios de aceite:
+Cenário: Edital com entrevista
+  Dado que o edital tem pesos 60%/40%
+  Quando informo doc 75 e entrevista 85
+  Então o sistema calcula final = 79,00
+
+Cenário: Edital sem entrevista
+  Dado que o edital não tem entrevista
+  Quando acesso a tela de análise
+  Então campo entrevista não está visível e final = documental
+
+Dependências: US-02 US-08
+Definition of Ready: ✅ INVEST validado",3,,[EPIC] Análise e Classificação Documental,,analise complexidade-P,analise-documental
+US-10 | Analista desclassifica candidato,Story,High,"Como analista quero desclassificar candidato informando motivo para que o candidato seja removido da classificação com justificativa.
+
+Critérios de aceite:
+Cenário: Desclassificar com motivo
+  Dado que estou na tela de análise
+  Quando preencho motivo e clico ELIMINAR
+  Então o sistema exibe confirmação e ao confirmar registra status Eliminado
+
+Cenário: Desclassificar sem motivo
+  Dado que estou na tela
+  Quando clico ELIMINAR sem motivo
+  Então o sistema exibe erro
+
+Dependências: US-08
+Definition of Ready: ✅ INVEST validado",2,,[EPIC] Análise e Classificação Documental,,analise complexidade-P,analise-documental
+US-11 | Lista de classificação com edição manual de pontuação final,Story,Highest,"Como [SETOR SOLICITANTE] quero visualizar lista com pontuação final e editar manualmente com justificativa para que correções pontuais sejam possíveis com auditoria completa.
+
+Critérios de aceite:
+Cenário: Editar pontuação final
+  Dado que estou na lista de classificação
+  Quando edito pontuação com justificativa
+  Então o sistema salva e registra autor data e justificativa
+
+Cenário: Editar sem justificativa
+  Dado que estou editando
+  Quando tento salvar sem justificativa
+  Então o sistema exibe erro
+
+Dependências: US-08 US-09
+Definition of Ready: ✅ INVEST validado",5,,[EPIC] Análise e Classificação Documental,,classificacao complexidade-M,classificacao
+US-12 | Exportar classificação em CSV e HTML,Story,High,"Como [SETOR SOLICITANTE] quero exportar classificação em CSV e HTML para que eu possa publicar no site institucional.
+
+Critérios de aceite:
+Cenário: Exportar CSV
+  Dado que estou na lista de classificação
+  Quando clico Exportar CSV
+  Então o sistema gera arquivo com inscrição nome pontuações e status
+
+Cenário: Exportar HTML
+  Dado que estou na lista
+  Quando clico Exportar HTML
+  Então o sistema gera HTML formatado para publicação
+
+Dependências: US-11
+Definition of Ready: ⚠️ Pendente: recebimento das convocações publicadas como referência pergunta 4",3,,[EPIC] Análise e Classificação Documental,,relatorios complexidade-P,classificacao relatorios
+US-13 | Perfil Analista de Documento,Story,High,"Como administrador quero cadastrar usuários com perfil Analista de Documento vinculado a ofertas para que analistas acessem apenas as telas de análise das ofertas vinculadas.
+
+Critérios de aceite:
+Cenário: Cadastrar analista vinculado a oferta
+  Dado que estou no cadastro de usuários
+  Quando crio usuário com perfil Analista e vinculo a oferta
+  Então ao fazer login vê apenas candidatos daquela oferta
+
+Cenário: Analista tenta acessar administração
+  Dado que sou analista
+  Quando tento acessar menu administrativo
+  Então o sistema não exibe opções administrativas
+
+Dependências: Nenhuma
+Definition of Ready: ⚠️ Pendente: decisão sobre quem cadastra pergunta 5",3,,[EPIC] Perfil Analista de Documento,,permissoes complexidade-P,usuarios permissoes
+US-14 | Candidato interpõe recurso pelo portal,Story,High,"Como candidato quero interpor recurso pelo portal com justificativa e PDF para que o analista reavalie minha pontuação.
+
+Critérios de aceite:
+Cenário: Enviar recurso dentro do prazo
+  Dado que o calendário de recurso está aberto
+  Quando preencho justificativa anexo PDF e envio
+  Então o sistema registra o recurso e status muda para Recurso em análise
+
+Cenário: Tentar recurso fora do prazo
+  Dado que o prazo encerrou
+  Quando tento acessar recurso
+  Então o sistema exibe mensagem e opção não está disponível
+
+Dependências: Calendário de recurso US-03/US-04
+Definition of Ready: ⚠️ Pendente: pode haver recurso de recurso? pergunta 7",3,,[EPIC] Recurso da Análise Documental,,recurso complexidade-P,portal-candidato recurso
+US-15 | Analista julga recurso,Story,Highest,"Como analista quero julgar recurso visualizando todos os dados em uma tela única para que eu possa deferir ou indeferir com nova pontuação e justificativa.
+
+Critérios de aceite:
+Cenário: Deferir recurso
+  Dado que estou na tela de julgamento
+  Quando seleciono Deferido informo nova pontuação e justificativa
+  Então o sistema recalcula pontuação final e registra decisão
+
+Cenário: Indeferir recurso
+  Dado que estou na tela
+  Quando seleciono Indeferido e justificativa
+  Então o sistema mantém pontuação anterior e registra decisão
+
+Dependências: US-14 US-08
+Definition of Ready: ⚠️ Pendente: efeitos exatos do deferimento/indeferimento pergunta 8",5,,[EPIC] Recurso da Análise Documental,,recurso complexidade-M,analise-documental recurso
+US-16 | Candidato visualiza status e pontuação no portal,Story,High,"Como candidato quero visualizar pontuação final e status no portal respeitando datas de publicação para que eu acompanhe o resultado respeitando as datas de publicação.
+
+Critérios de aceite:
+Cenário: Antes da data de publicação
+  Dado que a data de publicação ainda não chegou
+  Quando acesso o portal
+  Então vejo Aguardando análise documental
+
+Cenário: Após publicação — classificado
+  Dado que a data passou e fui classificado
+  Quando acesso o portal
+  Então vejo pontuação final e Classificado em Xº lugar
+
+Cenário: Após publicação — eliminado
+  Dado que fui eliminado
+  Quando acesso após publicação
+  Então vejo Eliminado com motivo
+
+Dependências: US-10 US-11 US-15
+Definition of Ready: ✅ INVEST validado",3,,[EPIC] Recurso da Análise Documental,,portal complexidade-P,portal-candidato
