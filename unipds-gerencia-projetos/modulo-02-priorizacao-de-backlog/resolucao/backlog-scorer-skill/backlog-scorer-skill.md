@@ -1,3 +1,8 @@
+---
+name: backlog-scorer-skill
+description: Priorização de backlog com RICE Score e WSJF. Use quando o usuário pedir para priorizar backlog, pontuar itens, calcular RICE, WSJF, ou mencionar "priorização", "backlog", "scoring", "RICE", "WSJF".
+---
+
 # Backlog Scorer Skill
 > Priorização de backlog com RICE Score e WSJF
 > Baseado no template de Ahirton Lopes · PM AI Toolkit
