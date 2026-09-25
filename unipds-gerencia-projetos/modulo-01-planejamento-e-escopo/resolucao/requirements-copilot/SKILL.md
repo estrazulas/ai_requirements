@@ -76,11 +76,36 @@ Regras de qualidade Gherkin:
 ```
 Épico (capacidade de negócio — tipicamente 2 a 8 semanas)
   └─ Feature (unidade entregável dentro do épico)
-      └─ User Story (fatia de sprint — máximo 8 story points)
+      └─ User Story (fatia de sprint — máximo 13 story points na escala Fibonacci)
           └─ Task (subtarefa de implementação — uso interno do time)
 ```
 
 Ao identificar um épico, estime complexidade: P / M / G / GG. Justifique a estimativa em uma linha.
+
+### 4.1 ESCALA FIBONACCI PARA STORY POINTS
+
+Use a escala Fibonacci modificada para estimar User Stories:
+
+**Escala:** 0.5, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89
+
+**Tabela de referência por tipo de tarefa:**
+
+| Tipo de Tarefa | Simples | Médio | Complexo |
+|----------------|---------|-------|----------|
+| **CRUDs / Cadastros** | 1-2 | 3-5 | 8 |
+| **Telas de Processamento** | 2-3 | 5-8 | 13 |
+| **Entrada de Dados** | 1-2 | 3-5 | 8 |
+| **Listas e Relatórios** | 1-2 | 3-5 | 8 |
+| **Portal / Autoatendimento** | 1-2 | 3-5 | 8 |
+
+**Critérios para classificar complexidade:**
+- **Número de campos:** 1-2 (simples), 3-5 (médio), 6+ (complexo)
+- **Validações:** Nenhuma/pouca (simples), regras de negócio simples (médio), cálculos/dependências (complexo)
+- **Campos condicionais:** Nenhum (simples), alguns (médio), muitos com lógica (complexo)
+- **Integrações:** Nenhuma (simples), vínculo a 1 entidade (médio), múltiplas dependências (complexo)
+- **Visualização:** Sem visualizador (simples/médio), visualizador de documentos (complexo)
+
+**Regra:** Se uma User Story ultrapassar 13 Story Points, decomponha em histórias menores.
 
 ---
 
@@ -213,7 +238,7 @@ Para cada User Story aprovada na validação INVEST, produza o card no formato a
 **Feature:** [título da feature]
 **Título:** Como [papel], quero [capacidade]
 **Tipo:** Story
-**Story Points:** [1–8] — [justificativa em uma linha]
+**Story Points:** [0.5, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89] — [justificativa em uma linha baseada na tabela de referência da seção 4.1]
 **Sprint:** [número do sprint — a definir no planning]
 **Component/s:** [módulo ou área do sistema — ex: alertas-velocidade, dashboard]
 **Labels:** [domínio], [complexidade P/M/G/GG]

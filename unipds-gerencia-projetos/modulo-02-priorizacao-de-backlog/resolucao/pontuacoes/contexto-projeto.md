@@ -7,7 +7,7 @@
 ## 1. Velocidade Histórica
 
 - **Story points por sprint (2 semanas):** 120 pontos (60 pts/semana)
-- **Capacidade em pessoa-mês:** ~4.0 pm por sprint (estimado)
+- **Capacidade em pessoa-mês:** ~8.0 pm por sprint (calculado com âncora CRUD=0.2pm/3pts)
 - **Composição da equipe:** não informada
 - **Buffer para atividades não-código:** não informado
 
@@ -25,8 +25,10 @@
 
 | Feature | Esforço Real | Observações |
 |---------|--------------|-------------|
-| CRUD simples | 0.5 sprint | Sem integrações externas |
-| Tarefa complexa | 1 sprint | Com validações de negócio |
+| CRUD simples | 0.2 pm (4 dias) | Sem integrações externas |
+| CRUD médio | 0.3-0.4 pm | Com validações e campos condicionais |
+| CRUD complexo | 0.5-0.6 pm | Com cálculos e múltiplas validações |
+| Tela processamento complexa | 0.8-1.2 pm | Com visualizador PDF e auditoria |
 
 ---
 
@@ -34,7 +36,7 @@
 
 | Prazo | Descrição | Impacto |
 |-------|-----------|---------|
-| Sem prazo | Sem deadline explícito por lei | TC moderado (3-5) |
+| Sem prazo | Sem deadline explícito por lei | TC moderado (4) |
 
 ---
 
@@ -51,6 +53,18 @@
 - **Visualizador PDF inline:** biblioteca/componente precisa validação
 - **Modelo de permissões:** vinculação por oferta vs. unidade precisa verificação
 - **Base ENEM:** reaproveitamento não documentado
+
+---
+
+## 7. Escala de Complexidade Utilizada
+
+| Categoria | Simples | Médio | Complexo |
+|-----------|---------|-------|----------|
+| CRUDs / Cadastros | 0.2 | 0.3-0.4 | 0.5-0.6 |
+| Telas de Processamento | 0.2-0.3 | 0.4-0.5 | 0.8-1.2 |
+| Entrada de Dados | 0.2 | 0.3-0.4 | 0.5-0.6 |
+| Listas e Relatórios | 0.2 | 0.3-0.5 | 0.5-0.7 |
+| Portal / Autoatendimento | 0.2 | 0.3-0.4 | 0.5-0.6 |
 
 ---
 

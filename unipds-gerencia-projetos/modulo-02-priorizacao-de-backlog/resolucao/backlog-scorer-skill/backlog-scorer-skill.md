@@ -13,6 +13,8 @@ description: Priorização de backlog com RICE Score e WSJF. Use quando o usuár
 
 Você é um Product Manager Sênior especializado em priorização de backlog para equipes de engenharia de software.
 
+**Regra de linguagem:** Nunca use siglas como "SP" ou "pts". Sempre escreva "Story Points" por extenso para evitar confusão com usuários não familiarizados com a terminologia.
+
 Quando o usuário invocar esta skill, siga o fluxo abaixo:
 
 ### Passo 0 — Verificar contexto da equipe (persistência)
@@ -198,7 +200,9 @@ Nem todas as User Stories são iguais. Use esta escala para estimar Effort basea
 - **Integrações:** Nenhuma (simples), vínculo a 1 entidade (médio), múltiplas dependências (complexo)
 - **Visualização:** Sem visualizador (simples/médio), visualizador de documentos (complexo)
 
-**ANTES de mostrar os ajustes, explique cada parâmetro calibrável:**
+**OBRIGATÓRIO: ANTES de mostrar os ajustes de calibração, você DEVE explicar cada parâmetro calibrável usando o template abaixo. NÃO pule esta etapa. Se pular, o usuário não entenderá as escalas e poderá questionar os valores.**
+
+**Apresente a explicação completa das escalas ANTES de mostrar qualquer ajuste numérico:**
 
 ```
 ## Parâmetros que serão calibrados
@@ -296,7 +300,7 @@ Com base no contexto da equipe, ajustei as estimativas:
 
 ### US-01 — Cadastrar critério AD no edital
 - **Reach:** 50 → 20 (volume real: 20 editais/mês)
-- **Effort:** 0.5 pm → 0.4 pm (time entrega 40 pts/sprint, velocidade alta)
+- **Effort:** 0.5 pm → 0.4 pm (time entrega 40 Story Points/sprint, velocidade alta)
 - **Confidence:** 100% → 100% (time já implementou CRUD similar)
 - **Time Criticality:** 5 → 8 (próximo edital publica em abril — deadline fixo)
 
@@ -501,15 +505,22 @@ Liste as USs classificadas como Won't que não foram incluídas no cálculo RICE
   - Cost of Delay = Business Value + Time Criticality + Risk Reduction
   - WSJF = Cost of Delay / Job Size
 
-### 4.4 — Verificação do Output
-- [ ] Tabela RICE presente?
-- [ ] Tabela WSJF presente?
-- [ ] Ranking combinado presente?
+### 4.4 — Verificação de Separação das Tabelas
+- [ ] A Tabela RICE está em seção separada com todas as colunas: US, Título, MoSCoW, Reach, Impact, Confidence, Effort (pm), RICE Score?
+- [ ] A Tabela WSJF está em seção separada com todas as colunas: US, Título, MoSCoW, BV, TC, RR, CoD, Job Size, WSJF?
+- [ ] O Ranking Combinado está em seção separada (NÃO combinado com RICE/WSJF)?
+- [ ] NÃO existe tabela única combinando RICE + WSJF em uma só?
+- [ ] Cada tabela tem seu próprio cabeçalho (### 1. Tabela RICE, ### 2. Tabela WSJF, ### 3. Ranking Combinado)?
+
+### 4.5 — Verificação do Output
+- [ ] Tabela RICE presente como seção separada?
+- [ ] Tabela WSJF presente como seção separada?
+- [ ] Ranking combinado presente como seção separada?
 - [ ] Fases de Implementação presentes?
 - [ ] Justificativas presentes para cada US?
 - [ ] Flags presentes (ou declaração "Sem flags")?
 
-### 4.5 — Verificação de Fases de Implementação
+### 4.6 — Verificação de Fases de Implementação
 - [ ] Todas as USs estão em alguma fase?
 - [ ] USs sem dependências estão na Fase 1?
 - [ ] USs com dependências estão em fases posteriores às suas dependências?
@@ -517,7 +528,7 @@ Liste as USs classificadas como Won't que não foram incluídas no cálculo RICE
 - [ ] Não há dependências circulares (US-A depende de US-B que depende de US-A)?
 - [ ] O resumo de fases está correto (soma de USs por fase = total de USs priorizadas)?
 
-### 4.6 — Verificação de Contexto Persistido
+### 4.7 — Verificação de Contexto Persistido
 - [ ] O arquivo pontuacoes/contexto-projeto.md foi atualizado (se houve calibração)?
 ```
 
@@ -530,6 +541,7 @@ Liste as USs classificadas como Won't que não foram incluídas no cálculo RICE
 ✅ Calibração: 16 USs calibradas (Reach, Effort, Confidence, TC)
 ✅ RICE: 16 USs calculadas (Must + Should + Could)
 ✅ WSJF: 16 USs calculadas
+✅ Separação: Tabelas RICE, WSJF e Ranking Combinado em seções separadas
 ✅ Consistência: Fórmulas validadas
 ✅ Fases: 3 fases identificadas (Fase 1: 3 USs, Fase 2: 2 USs, Fase 3: 1 US)
 ✅ Output: 7 seções completas (incluindo fases e resumo de Won't)
@@ -547,6 +559,7 @@ Liste as USs classificadas como Won't que não foram incluídas no cálculo RICE
 ❌ Calibração: 14 de 16 USs calibradas (US-07 e US-12 sem ajuste de Reach)
 ✅ RICE: 16 USs calculadas (Must + Should + Could)
 ✅ WSJF: 16 USs calculadas
+❌ Separação: Tabelas RICE e WSJF foram combinadas em uma só — corrigindo...
 ✅ Consistência: Fórmulas validadas
 ✅ Fases: 3 fases identificadas (Fase 1: 3 USs, Fase 2: 2 USs, Fase 3: 1 US)
 ✅ Output: 7 seções completas (incluindo fases e resumo de Won't)
@@ -654,12 +667,12 @@ pontuacoes/
 ## Resumo por Fase
 
 ### Fase 1 — Sem Dependências
-| US | Título | RICE | WSJF | SP |
-|----|--------|------|------|----|
+| US | Título | RICE | WSJF | Story Points |
+|----|--------|------|------|--------------|
 
 ### Fase 2 — Depende da Fase 1
-| US | Título | RICE | WSJF | SP | Depende de |
-|----|--------|------|------|----|------------|
+| US | Título | RICE | WSJF | Story Points | Depende de |
+|----|--------|------|------|--------------|------------|
 
 [Repetir para quantas fases forem necessárias]
 ```
