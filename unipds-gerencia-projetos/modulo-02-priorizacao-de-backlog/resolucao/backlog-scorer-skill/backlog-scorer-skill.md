@@ -135,6 +135,47 @@ Use o contexto da equipe (do Passo 0) para calibrar os parâmetros:
 | Histórico com features | Confidence | Já fez → Confidence alto → RICE mais confiável |
 | Prazos externos | Time Criticality | Deadline fixo → TC alto → WSJF mais alto |
 
+**ANTES de mostrar os ajustes, explique o que é Effort (pm):**
+
+```
+## O que é Effort (pm)?
+
+**Effort (pm)** = **pessoa-mês** (person-month)
+
+É a unidade de medida de esforço no RICE Score. Representa quanto tempo uma pessoa levaria para completar a tarefa.
+
+**Conversão:**
+- 1 pm = 1 pessoa trabalhando por 1 mês (≈ 20 dias úteis)
+- 0.5 pm = 1 pessoa trabalhando por 2 semanas (≈ 10 dias úteis)
+- 0.25 pm = 1 pessoa trabalhando por 1 semana (≈ 5 dias úteis)
+
+**Tabela de conversão prática:**
+
+| Story Points | Effort (pm) | Tempo real |
+|--------------|-------------|------------|
+| 1-2 | 0.1-0.2 | 2-4 dias |
+| 3 | 0.25 | 1 semana |
+| 5 | 0.5 | 2 semanas |
+| 8 | 1.0 | 1 mês |
+| 13 | 2.0 | 2 meses |
+
+**Por que usar pessoa-mês?**
+- Mais fácil de estimar mentalmente
+- Considera contexto, reuniões, revisões, testes (não só código)
+- Permite comparar features de naturezas diferentes
+
+**Na fórmula RICE:**
+```
+RICE = (Reach × Impact × Confidence) / Effort
+```
+
+Quanto maior o Effort, menor o RICE Score → menor prioridade.
+
+---
+
+Agora vou mostrar os ajustes de calibração com base no contexto da sua equipe:
+```
+
 **Apresente os ajustes em formato de tópicos por US:**
 
 ```
