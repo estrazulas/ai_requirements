@@ -231,6 +231,118 @@ O documento de análise de requisitos contém todas as User Stories mapeadas. A 
 
 ---
 
+## Persistência do Contexto da Equipe
+
+A skill salva as informações da equipe em `contexto-projeto.md` (neste diretório) para reutilizar em rodadas futuras de priorização.
+
+### O que é persistido?
+
+| Informação | Exemplo | Por que importa |
+|------------|---------|-----------------|
+| **Velocidade histórica** | 30-40 story points/sprint | Calibra Effort e Job Size |
+| **Volume de usuários** | 20 editais/mês, 500 candidatos/mês | Calibra Reach |
+| **Histórico com features** | CRUD simples = 1 sprint, tela com PDF = 3 sprints | Calibra Confidence |
+| **Prazos externos** | Lei exige implementação até março/2027 | Calibra Time Criticality |
+| **Dependências externas** | Deploy adiciona 2 dias, aprovação de segurança adiciona 3 dias | Calibra Effort |
+| **Restrições técnicas** | Visualizador PDF pendente, modelo de permissões limitado | Gera Flags |
+
+### Como funciona?
+
+**1ª execução:**
+```
+Skill: "Para calibrar as estimativas, preciso entender o contexto da equipe..."
+Usuário: "Velocidade: 40 pts/sprint. Volume: 20 editais/mês..."
+Skill: [Salva em contexto-projeto.md (neste diretório)]
+```
+
+**2ª execução (e seguintes):**
+```
+Skill: "Houve mudanças no contexto da equipe desde a última rodada?"
+Usuário: "Não" / "Sim, a velocidade aumentou para 50 pts/sprint"
+Skill: [Lê contexto salvo] / [Atualiza contexto]
+```
+
+### Benefícios
+
+| Cenário | Sem persistência | Com persistência |
+|---------|------------------|------------------|
+| 1ª execução | Coleta contexto (5 min) | Coleta contexto (5 min) |
+| 2ª execução | Coleta contexto de novo (5 min) | Lê contexto salvo, pergunta se mudou (30s) |
+| 3ª execução | Coleta contexto de novo (5 min) | Lê contexto salvo, pergunta se mudou (30s) |
+| Mudança de time | Precisa recolher tudo | Atualiza apenas o que mudou |
+
+**Economia:** ~4 minutos por rodada de priorização após a primeira.
+
+---
+
+## Calibração de Estimativas (Opcional)
+
+Após a filtragem MoSCoW, a skill pergunta se você deseja calibrar as estimativas com o contexto da equipe.
+
+### O que é calibrado?
+
+| Parâmetro | O que depende | Exemplo de ajuste |
+|-----------|---------------|-------------------|
+| **Reach** | Volume real de usuários do produto | Modelo estima 50, mas time sabe que são 20 editais/mês → ajusta para 20 |
+| **Effort** | Velocidade do time, buffer, dependências | Time entrega 40 pts/sprint (rápido) → reduz Effort em 20% |
+| **Confidence** | Histórico com features similares | Time já fez CRUD similar → Confidence = 100%. Nunca fez visualizador PDF → Confidence = 60% |
+| **Time Criticality** | Prazos externos e regulatórios | Lei exige implementação até março/2027 → TC = 9 |
+
+### Formato de output (tópicos por US)
+
+```markdown
+### US-01 — Cadastrar critério AD no edital
+- **Reach:** 50 → 20 (volume real: 20 editais/mês)
+- **Effort:** 0.5 pm → 0.4 pm (time entrega 40 pts/sprint, velocidade alta)
+- **Confidence:** 100% → 100% (time já implementou CRUD similar)
+- **Time Criticality:** 5 → 8 (próximo edital publica em abril — deadline fixo)
+```
+
+### Se você pular a calibração
+
+A skill usa as estimativas originais das User Stories. Isso é útil quando:
+- As estimativas já foram validadas pelo time
+- Você está fazendo uma rodada rápida de priorização
+- O contexto da equipe não mudou significativamente
+
+---
+
+## Auto-Verificação (Checklist de Qualidade)
+
+Antes de apresentar o resultado final, a skill executa um checklist de qualidade para garantir completude e consistência.
+
+### O que é verificado?
+
+| Verificação | O que checa |
+|-------------|-------------|
+| **MoSCoW** | Todas as USs foram classificadas? Soma = total de USs? |
+| **Calibração** | Se calibrou: todas as USs têm valores ajustados? Se pulou: prossegue |
+| **RICE/WSJF** | Todas as USs Must + Should estão nas tabelas? Fórmulas corretas? |
+| **Output** | Todas as 5 seções presentes (RICE, WSJF, Ranking, Justificativas, Flags)? |
+| **Contexto** | contexto-projeto.md foi atualizado? |
+
+### Output de verificação
+
+```markdown
+## Auto-Verificação — Checklist
+
+✅ MoSCoW: 16 USs classificadas (5 Must, 5 Should, 6 Could, 0 Won't)
+⏭️ Calibração: Pulada pelo usuário
+✅ RICE: 10 USs calculadas (apenas Must + Should)
+✅ WSJF: 10 USs calculadas
+✅ Consistência: Fórmulas validadas
+✅ Output: 5 seções completas
+✅ Contexto: contexto-projeto.md atualizado
+
+**Resultado:** Todos os passos seguidos. Ranking pronto para revisão.
+```
+
+### Se algo falha
+
+A skill identifica o problema e corrige automaticamente antes de apresentar o resultado.
+
+---
+
 ## Fluxo de Uso da Skill
 
 1. **Execute a skill:**
@@ -238,21 +350,43 @@ O documento de análise de requisitos contém todas as User Stories mapeadas. A 
    Use a skill backlog-scorer-skill
    ```
 
-2. **Informe os dados solicitados:**
+2. **Passo 0 — Verificar contexto da equipe:**
+   - Na 1ª execução: a skill coleta informações da equipe (velocidade, volume, histórico, prazos)
+   - Nas próximas execuções: a skill lê o contexto salvo e pergunta se houve mudanças
+   - O contexto é persistido em `../contexto-equipe/contexto-projeto.md`
+
+3. **Passo 1 — Informe os dados do projeto:**
    - OKR do projeto
    - Perfil da empresa/produto
    - Restrições conhecidas
    - User Stories (copie do documento de análise de requisitos)
 
-3. **A skill vai automaticamente:**
-   - Classificar cada US pelo MoSCoW (Must/Should/Could/Won't)
-   - Mostrar a classificação em tabela para sua confirmação
-   - Aguardar sua aprovação antes de prosseguir
-   - Calcular RICE Score e WSJF apenas para Must + Should
-   - Gerar ranking combinado
-   - Apontar flags de risco/incerteza
+4. **Passo 2 — Filtragem MoSCoW:**
+   - A skill classifica cada US pelo MoSCoW (Must/Should/Could/Won't)
+   - Mostra a classificação em tabela para sua confirmação
+   - Aguarda sua aprovação antes de prosseguir
 
-4. **Revise o output** e ajuste conforme necessário antes de publicar o ranking.
+5. **Passo 2.5 — Calibração de Estimativas (OPCIONAL):**
+   - A skill pergunta se você deseja calibrar as estimativas com o contexto da equipe
+   - Se sim: ajusta Reach, Effort, Confidence e Time Criticality
+   - Se não: usa as estimativas originais
+
+6. **Passo 3 — Cálculo RICE/WSJF:**
+   - Calcula RICE Score e WSJF apenas para Must + Should
+   - Gera ranking combinado
+
+7. **Passo 4 — Auto-Verificação:**
+   - A skill executa um checklist de qualidade
+   - Valida completude e consistência
+   - Se algo falha: corrige automaticamente
+
+8. **Passo 5 — Apresentar resultado:**
+   - Tabelas RICE e WSJF
+   - Ranking combinado
+   - Justificativas
+   - Flags de risco/incerteza
+
+9. **Revise o output** e ajuste conforme necessário antes de publicar o ranking.
 
 ---
 
@@ -275,7 +409,12 @@ User Stories:
 
 **Output da skill (automático):**
 
-1. Primeiro, a skill mostra a filtragem MoSCoW:
+1. **Passo 0 — Contexto da equipe:**
+```
+Houve mudanças no contexto da equipe desde a última rodada? (Sim/Não)
+```
+
+2. **Passo 2 — Filtragem MoSCoW:**
 ```
 ## Filtragem MoSCoW — Confirmação Necessária
 
@@ -294,9 +433,29 @@ Para o scoring, usarei apenas: Must + Should (10 histórias)
 Confirma esta classificação? (Sim/Não/Ajustar)
 ```
 
-2. Após confirmação, a skill executa o RICE/WSJF apenas nas Must + Should
+3. **Passo 2.5 — Calibração (opcional):**
+```
+Deseja calibrar as estimativas com o contexto da equipe? (Sim/Não)
+```
 
-**Output esperado:**
+Se sim, mostra ajustes em tópicos por US e aguarda confirmação.
+
+4. **Passo 4 — Auto-Verificação:**
+```
+## Auto-Verificação — Checklist
+
+✅ MoSCoW: 16 USs classificadas (5 Must, 5 Should, 6 Could, 0 Won't)
+✅ Calibração: 10 USs calibradas (Reach, Effort, Confidence, TC)
+✅ RICE: 10 USs calculadas (apenas Must + Should)
+✅ WSJF: 10 USs calculadas
+✅ Consistência: Fórmulas validadas
+✅ Output: 5 seções completas
+✅ Contexto: contexto-projeto.md atualizado
+
+**Resultado:** Todos os passos seguidos. Ranking pronto para revisão.
+```
+
+5. **Passo 5 — Resultado final:**
 - Tabela RICE com Reach, Impact, Confidence, Effort e Score
 - Tabela WSJF com Business Value, Time Criticality, Risk Reduction, Cost of Delay, Job Size e WSJF
 - Ranking combinado em ordem decrescente
