@@ -12,17 +12,17 @@
 
 | Papel | Senioridade | Foco Técnico | Horas/Sprint |
 |-------|-------------|--------------|--------------|
-| Dev 1 | Sênior | Full Stack (Backend + Frontend) | 36.4h |
-| Dev 2 | Sênior | Full Stack (Backend + Frontend) | 36.4h |
-| Dev 3 | Pleno | Backend + Frontend | 36.4h |
+| Dev 1 | Sênior | Full Stack (Backend + Frontend) | 26h |
+| Dev 2 | Sênior | Full Stack (Backend + Frontend) | 26h |
+| Dev 3 | Pleno | Backend + Frontend | 26h |
 
 ### Capacidade
 
-- **Duração da Sprint:** 14 dias (2 semanas)
+- **Duração da Sprint:** 14 dias corridos = 2 semanas = **10 dias úteis**
 - **Horas por dia:** 4h/pessoa
-- **Capacidade nominal por sprint:** 14 dias × 4h = 56h/pessoa
-- **Capacidade real (65%):** 56h × 0.65 = **36.4h/pessoa/sprint**
-- **Capacidade total do time:** 3 pessoas × 36.4h = **109.2h/sprint**
+- **Capacidade nominal por sprint:** 10 dias úteis × 4h = **40h/pessoa/sprint**
+- **Capacidade real (65%):** 40h × 0.65 = **26h/pessoa/sprint**
+- **Capacidade total do time:** 3 pessoas × 26h = **78h/sprint**
 - **Velocidade estimada:** 40 Story Points/sprint
 
 ### Período do Projeto
@@ -38,19 +38,25 @@
 
 ### Novembro 2026
 
-| Data | Dia da Semana | Feriado | Impacto |
-|------|---------------|---------|---------|
-| 02/11 | Segunda | Finados | -1 dia útil |
-| 15/11 | Domingo | Proclamação da República | Sem impacto (domingo) |
-| 20/11 | Sexta | Dia da Consciência Negra | -1 dia útil |
+| Data | Dia da Semana | Feriado | Sprint Afetada |
+|------|---------------|---------|----------------|
+| 02/11 | Segunda | Finados | Sprint 3 (28/10 - 10/11) |
+| 20/11 | Sexta | Dia da Consciência Negra | Sprint 4 (11/11 - 24/11) |
 
-**Total de feriados em novembro:** 2 dias úteis perdidos
+**Total de feriados:** 2 dias úteis perdidos
 
-### Ajuste de Capacidade em Novembro
+### Ajuste de Capacidade por Sprint
 
-- **Sprints em novembro:** Sprint 5 (02/11 - 13/11) e Sprint 6 (16/11 - 27/11)
-- **Sprint 5:** Perde 1 dia (02/11) → capacidade reduzida em ~7.3h
-- **Sprint 6:** Perde 1 dia (20/11) → capacidade reduzida em ~7.3h
+| Sprint | Período | Dias Úteis | Feriados | Dias Efetivos | Capacidade (por pessoa) | Capacidade Total (time) |
+|--------|---------|------------|----------|---------------|-------------------------|-------------------------|
+| Sprint 1 | 30/09 - 13/10 | 10 | 0 | 10 | 26h | 78h |
+| Sprint 2 | 14/10 - 27/10 | 10 | 0 | 10 | 26h | 78h |
+| Sprint 3 | 28/10 - 10/11 | 10 | 1 (02/11) | 9 | 23.4h | 70.2h |
+| Sprint 4 | 11/11 - 24/11 | 10 | 1 (20/11) | 9 | 23.4h | 70.2h |
+| Sprint 5 | 25/11 - 08/12 | 10 | 0 | 10 | 26h | 78h |
+| Sprint 6 | 09/12 - 22/12 | 10 | 0 | 10 | 26h | 78h |
+
+**Capacidade total do projeto:** 452.4h
 
 ---
 
@@ -116,6 +122,8 @@
 
 ### Sprint 1 (30/09 - 13/10/2026) — Fase 1: Fundação
 
+**Capacidade disponível:** 78h (10 dias úteis)
+
 **Objetivo:** Configurar base do sistema (critérios, tipos de documento, perfil analista)
 
 | US | Título | Responsável | Effort | Status |
@@ -125,19 +133,22 @@
 | US-13 | Perfil "Analista de Documento" | Dev 3 (Pleno) | 13.7h | Planejado |
 
 **Capacidade utilizada:**
-- Dev 1: 5.5h / 36.4h = 15%
-- Dev 2: 5.5h / 36.4h = 15%
-- Dev 3: 13.7h / 36.4h = 38%
-- **Total:** 24.7h / 109.2h = 23%
+- Dev 1: 5.5h / 26h = 21%
+- Dev 2: 5.5h / 26h = 21%
+- Dev 3: 13.7h / 26h = 53%
+- **Total:** 24.7h / 78h = **32%**
 
 **Observações:**
 - Sprint leve para permitir ajustes de ambiente e onboarding
 - US-01 e US-05 são CRUDs simples, podem ser feitos em paralelo
 - US-13 é mais complexa (novo perfil + vinculação a oferta), alocada ao Dev 3
+- Margem de 45.3h para imprevistos ou ajustes
 
 ---
 
 ### Sprint 2 (14/10 - 27/10/2026) — Fase 2: Inscrição com Pontuação
+
+**Capacidade disponível:** 78h (10 dias úteis)
 
 **Objetivo:** Implementar fluxo de declaração de pontuação pelo candidato
 
@@ -146,19 +157,22 @@
 | US-06 | Candidato declara pontuação ao enviar documentos | Dev 1 + Dev 2 | 21.8h | Planejado |
 
 **Capacidade utilizada:**
-- Dev 1: 10.9h / 36.4h = 30%
-- Dev 2: 10.9h / 36.4h = 30%
-- Dev 3: 0h / 36.4h = 0% (disponível para suporte)
-- **Total:** 21.8h / 109.2h = 20%
+- Dev 1: 10.9h / 26h = 42%
+- Dev 2: 10.9h / 26h = 42%
+- Dev 3: 0h / 26h = 0% (disponível para suporte)
+- **Total:** 21.8h / 78h = **28%**
 
 **Observações:**
 - US-06 é complexa (upload + validação de tetos + cálculo em tempo real)
 - Alocada a 2 devs seniores para garantir qualidade
 - Dev 3 fica disponível para suporte, testes ou ajustes de ambiente
+- Margem de 56.2h para imprevistos
 
 ---
 
 ### Sprint 3 (28/10 - 10/11/2026) — Fase 3: Análise Documental
+
+**Capacidade disponível:** 70.2h (9 dias úteis — feriado 02/11)
 
 **Objetivo:** Implementar tela de análise documental (coração do sistema)
 
@@ -168,23 +182,25 @@
 | US-08 | Analista pontua documentos do candidato | Dev 1 + Dev 2 | 35.5h | Planejado |
 
 **Capacidade utilizada:**
-- Dev 1: 17.8h / 36.4h = 49%
-- Dev 2: 17.8h / 36.4h = 49%
-- Dev 3: 13.7h / 36.4h = 38%
-- **Total:** 49.2h / 109.2h = 45%
+- Dev 1: 17.8h / 23.4h = 76%
+- Dev 2: 17.8h / 23.4h = 76%
+- Dev 3: 13.7h / 23.4h = 59%
+- **Total:** 49.2h / 70.2h = **70%**
 
 **Observações:**
 - US-08 é a mais complexa do projeto (visualizador PDF + cálculo + auditoria)
 - Requer 2 devs seniores trabalhando em paralelo
 - US-07 é independente e pode ser feita pelo Dev 3
+- Sprint com alta utilização devido ao feriado
+- Margem de 21h para imprevistos
 
 ---
 
 ### Sprint 4 (11/11 - 24/11/2026) — Fase 4: Classificação e Portal
 
-**Objetivo:** Implementar lista de classificação, desclassificação e visualização no portal
+**Capacidade disponível:** 70.2h (9 dias úteis — feriado 20/11)
 
-**Atenção:** Sprint impactada por feriado (20/11) — capacidade reduzida
+**Objetivo:** Implementar lista de classificação, desclassificação e visualização no portal
 
 | US | Título | Responsável | Effort | Status |
 |----|--------|-------------|--------|--------|
@@ -194,24 +210,25 @@
 | US-11 | Lista de classificação com edição manual | Dev 2 (Sênior) | 21.8h | Planejado |
 
 **Capacidade utilizada:**
-- Dev 1: 13.7h / 29.1h = 47% (capacidade reduzida pelo feriado)
-- Dev 2: 21.8h / 29.1h = 75% (capacidade reduzida pelo feriado)
-- Dev 3: 13.7h / 29.1h = 47% (capacidade reduzida pelo feriado)
-- **Total:** 49.2h / 87.3h = 56%
+- Dev 1: 13.7h / 23.4h = 59%
+- Dev 2: 21.8h / 23.4h = 93%
+- Dev 3: 13.7h / 23.4h = 59%
+- **Total:** 49.2h / 70.2h = **70%**
 
 **Observações:**
-- Feriado 20/11 reduz capacidade de 36.4h para 29.1h por pessoa
-- US-11 é complexa (lista editável + auditoria), alocada ao Dev 2
+- Feriado 20/11 reduz capacidade de 78h para 70.2h
+- US-11 é complexa (lista editável + auditoria), alocada ao Dev 2 (alta carga)
 - US-16 depende de US-10 e US-11, mas pode ser desenvolvida em paralelo
-- US-09 (pontuação de entrevista) não foi alocada por dependência de US-08 e US-02
+- Dev 2 está com 93% de utilização — monitorar sobrecarga
+- Margem de 21h para imprevistos
 
 ---
 
 ### Sprint 5 (25/11 - 08/12/2026) — Fase 5: Entrevista e Recurso
 
-**Objetivo:** Implementar pontuação de entrevista e fluxo de recurso
+**Capacidade disponível:** 78h (10 dias úteis)
 
-**Atenção:** Sprint impactada por feriado (02/11 já passou, mas sprint começa em 25/11)
+**Objetivo:** Implementar pontuação de entrevista e fluxo de recurso
 
 | US | Título | Responsável | Effort | Status |
 |----|--------|-------------|--------|--------|
@@ -221,19 +238,23 @@
 | US-14 | Candidato interpõe recurso pelo portal | Dev 3 (Pleno) | 13.7h | Planejado |
 
 **Capacidade utilizada:**
-- Dev 1: 13.7h / 36.4h = 38%
-- Dev 2: 13.7h / 36.4h = 38%
-- Dev 3: 21.9h / 36.4h = 60%
-- **Total:** 49.3h / 109.2h = 45%
+- Dev 1: 13.7h / 26h = 53%
+- Dev 2: 13.7h / 26h = 53%
+- Dev 3: 21.9h / 26h = 84%
+- **Total:** 49.3h / 78h = **63%**
 
 **Observações:**
 - US-09 depende de US-02 e US-08 (já prontas)
 - US-03 e US-04 são calendários independentes
 - US-14 depende de US-03 (calendário de recurso)
+- Dev 3 está com 84% de utilização
+- Margem de 28.7h para imprevistos
 
 ---
 
 ### Sprint 6 (09/12 - 22/12/2026) — Fase 6: Julgamento e Exportação
+
+**Capacidade disponível:** 78h (10 dias úteis)
 
 **Objetivo:** Implementar julgamento de recurso e exportação de classificação
 
@@ -243,15 +264,16 @@
 | US-12 | Exportar classificação em CSV e HTML | Dev 2 (Sênior) | 13.7h | Planejado |
 
 **Capacidade utilizada:**
-- Dev 1: 21.8h / 36.4h = 60%
-- Dev 2: 13.7h / 36.4h = 38%
-- Dev 3: 0h / 36.4h = 0% (disponível para suporte)
-- **Total:** 35.5h / 109.2h = 33%
+- Dev 1: 21.8h / 26h = 84%
+- Dev 2: 13.7h / 26h = 53%
+- Dev 3: 0h / 26h = 0% (disponível para suporte)
+- **Total:** 35.5h / 78h = **46%**
 
 **Observações:**
 - US-15 é complexa (múltiplas visualizações + decisão + recálculo)
 - US-12 depende de US-11 (lista de classificação)
-- Sprint leve para permitir ajustes finais e testes
+- Sprint com margem para ajustes finais e testes
+- Margem de 42.5h para imprevistos ou melhorias
 
 ---
 
@@ -329,11 +351,21 @@ US-01 (Sprint 1) → US-06 (Sprint 2) → US-08 (Sprint 3) → US-11 (Sprint 4) 
 
 ### ⚠️ Capacidade Reduzida em Novembro
 
-**Descrição:** Feriados em novembro (02/11 e 20/11) reduzem capacidade das Sprints 4 e 5.
+**Descrição:** Feriados em novembro (02/11 e 20/11) reduzem capacidade das Sprints 3 e 4.
 
-**Impacto:** Sprint 4 tem capacidade reduzida de 109.2h para 87.3h (-20%).
+**Impacto:** Sprints 3 e 4 têm capacidade reduzida de 78h para 70.2h (-10%).
 
-**Mitigação:** Sprint 4 já está planejada com 56% de utilização, então há margem.
+**Mitigação:** Sprints 3 e 4 já estão planejadas com 70% de utilização, então há margem.
+
+---
+
+### ⚠️ Dev 2 Sobrecarregado no Sprint 4
+
+**Descrição:** Dev 2 está alocado com 93% de utilização no Sprint 4 (US-11: 21.8h).
+
+**Impacto:** Qualquer imprevisto pode causar atraso na US-11, impactando o caminho crítico.
+
+**Mitigação:** Monitorar de perto; se houver imprevisto, mover parte da US-11 para o Dev 3.
 
 ---
 
@@ -381,15 +413,15 @@ US-01 (Sprint 1) → US-06 (Sprint 2) → US-08 (Sprint 3) → US-11 (Sprint 4) 
 
 ## 6. Resumo do Cronograma
 
-| Sprint | Período | USs Alocadas | Story Points | Capacidade Utilizada |
-|--------|---------|--------------|--------------|----------------------|
-| Sprint 1 | 30/09 - 13/10 | US-01, US-05, US-13 | 10 SP | 23% |
-| Sprint 2 | 14/10 - 27/10 | US-06 | 8 SP | 20% |
-| Sprint 3 | 28/10 - 10/11 | US-07, US-08 | 18 SP | 45% |
-| Sprint 4 | 11/11 - 24/11 | US-02, US-10, US-16, US-11 | 18 SP | 56% |
-| Sprint 5 | 25/11 - 08/12 | US-09, US-03, US-04, US-14 | 18 SP | 45% |
-| Sprint 6 | 09/12 - 22/12 | US-15, US-12 | 13 SP | 33% |
-| **Total** | | **16 USs** | **84 SP** | **38% (média)** |
+| Sprint | Período | Dias Úteis | USs Alocadas | Story Points | Capacidade Utilizada |
+|--------|---------|------------|--------------|--------------|----------------------|
+| Sprint 1 | 30/09 - 13/10 | 10 | US-01, US-05, US-13 | 10 SP | 32% |
+| Sprint 2 | 14/10 - 27/10 | 10 | US-06 | 8 SP | 28% |
+| Sprint 3 | 28/10 - 10/11 | 9 | US-07, US-08 | 18 SP | 70% |
+| Sprint 4 | 11/11 - 24/11 | 9 | US-02, US-10, US-16, US-11 | 18 SP | 70% |
+| Sprint 5 | 25/11 - 08/12 | 10 | US-09, US-03, US-04, US-14 | 18 SP | 63% |
+| Sprint 6 | 09/12 - 22/12 | 10 | US-15, US-12 | 13 SP | 46% |
+| **Total** | | **58** | **16 USs** | **84 SP** | **52% (média)** |
 
 ---
 
@@ -425,7 +457,7 @@ US-01 (Sprint 1) → US-06 (Sprint 2) → US-08 (Sprint 3) → US-11 (Sprint 4) 
 ### Cenário 2: Dev 1 ausente por 1 semana no Sprint 3
 
 **Impacto:**
-- US-08 perde 18h de capacidade (1 semana × 4h/dia × 5 dias = 20h, mas considerando 65% = 13h)
+- US-08 perde 13h de capacidade (1 semana × 4h/dia × 5 dias × 65%)
 - US-08 não cabe no Sprint 3 com apenas Dev 2
 - US-08 atrasa para Sprint 4
 
