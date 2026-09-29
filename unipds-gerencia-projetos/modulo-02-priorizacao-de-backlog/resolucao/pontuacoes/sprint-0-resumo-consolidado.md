@@ -3,7 +3,90 @@
 **Data:** 29/09/2026
 **Projeto:** Análise Documental — Processos Seletivos Acadêmicos
 
-> **Referência:** Para detalhes sobre siglas, escalas, fórmulas e níveis de complexidade, consulte: `GUIA-REFERENCIA-RAPIDA.md`
+---
+
+## Referência — Siglas, Escalas e Fórmulas
+
+### Siglas e Definições
+
+| Sigla | Significado | Definição |
+|-------|-------------|-----------|
+| **RICE** | Reach, Impact, Confidence, Effort | Framework da Intercom para priorizar features baseado em 4 dimensões mensuráveis |
+| **WSJF** | Weighted Shortest Job First | Framework do SAFe que prioriza baseado no custo do atraso dividido pelo tamanho do job |
+| **OKR** | Objectives and Key Results | Framework de metas: objetivo qualitativo + resultados-chave quantitativos |
+| **MoSCoW** | Must, Should, Could, Won't | Técnica de priorização com 4 categorias para filtrar backlog |
+| **BV** | Business Value | Valor de negócio — contribuição direta para o OKR (escala 1-10) |
+| **TC** | Time Criticality | Urgência temporal — o valor decai se atrasar? (escala 1-10) |
+| **RR** | Risk Reduction | Redução de risco — desbloqueia outros itens ou reduz risco técnico? (escala 1-10) |
+| **CoD** | Cost of Delay | Custo do atraso — soma de BV + TC + RR |
+| **SP** | Story Points | Medida relativa de complexidade/esforço (escala Fibonacci) |
+| **pm** | pessoa-mês | Unidade de esforço — 1 pessoa trabalhando por 1 mês (≈ 20 dias úteis) |
+
+---
+
+### Escalas
+
+**Escala Fibonacci (Story Points):** 0.5, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89
+
+**Impact (RICE):** 3=massivo, 2=significativo, 1=médio, 0.5=baixo, 0.25=mínimo
+
+**Confidence (RICE):** 100%=certeza absoluta, 80%=alta confiança, 50%=intuição, <50%=especulação
+
+**Time Criticality (WSJF):** 1-10 (9-10=deadline fixo, 7-8=prazo importante, 5-6=benefício imediato, 3-4=pode esperar, 1-2=sem urgência)
+
+**Business Value (WSJF):** 1-10 (9-10=essencial para OKR, 7-8=muito importante, 5-6=importante, 3-4=moderado, 1-2=baixo)
+
+**Risk Reduction (WSJF):** 1-10 (9-10=pré-requisito para múltiplas USs, 7-8=pré-requisito para algumas USs, 5-6=desbloqueia 1 US, 3-4=risco baixo, 1-2=sem impacto)
+
+**Job Size (WSJF):** 1-10 (1=muito pequeno, 2-3=pequeno, 4-5=médio, 6-7=grande, 8-10=muito grande)
+
+---
+
+### Fórmulas
+
+**RICE Score:**
+```
+RICE = (Reach × Impact × Confidence) / Effort
+```
+
+**Cost of Delay:**
+```
+CoD = Business Value + Time Criticality + Risk Reduction
+```
+
+**WSJF:**
+```
+WSJF = Cost of Delay / Job Size
+```
+
+---
+
+### Conversão Story Points → Tempo
+
+| Story Points | Effort (pm) | Tempo real |
+|--------------|-------------|------------|
+| 1-2 | 0.1-0.2 | 2-4 dias |
+| 3 | 0.25 | 1 semana |
+| 5 | 0.5 | 2 semanas |
+| 8 | 1.0 | 1 mês |
+| 13 | 2.0 | 2 meses |
+
+---
+
+### Níveis de Complexidade
+
+| Tipo de Tarefa | Simples | Médio | Complexo |
+|----------------|---------|-------|----------|
+| **CRUDs / Cadastros** | 1-2 pts | 3-5 pts | 8 pts |
+| **Telas de Processamento** | 2-3 pts | 5-8 pts | 13 pts |
+| **Entrada de Dados** | 1-2 pts | 3-5 pts | 8 pts |
+| **Listas e Relatórios** | 1-2 pts | 3-5 pts | 8 pts |
+| **Portal / Autoatendimento** | 1-2 pts | 3-5 pts | 8 pts |
+
+**Critérios:**
+- **Simples:** 1-2 campos, validações básicas, sem integrações
+- **Médio:** 3-5 campos, regras de negócio simples, vínculo a 1 entidade
+- **Complexo:** 6+ campos, cálculos/dependências, visualizador de documentos, múltiplas integrações
 
 ---
 
