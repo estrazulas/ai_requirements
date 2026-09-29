@@ -6,9 +6,9 @@
 
 ## 1. Velocidade Histórica
 
-- **Story points por sprint (2 semanas):** 120 pontos (60 pts/semana)
-- **Capacidade em pessoa-mês:** ~8.0 pm por sprint (calculado com âncora CRUD=0.2pm/3pts)
-- **Composição da equipe:** não informada
+- **Story points por sprint (2 semanas):** 40 pontos (20 pts/semana)
+- **Capacidade em pessoa-mês:** ~2.7 pm por sprint (calculado com âncora CRUD=0.2pm/3pts)
+- **Composição da equipe:** 1 analista
 - **Buffer para atividades não-código:** não informado
 
 ---

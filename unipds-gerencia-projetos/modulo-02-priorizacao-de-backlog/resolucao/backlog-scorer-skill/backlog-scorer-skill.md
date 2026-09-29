@@ -380,6 +380,8 @@ Para cada item, siga este protocolo:
 
 ## FORMATO DE OUTPUT
 
+> **Referência:** Para detalhes sobre siglas, escalas, fórmulas e níveis de complexidade, consulte: `GUIA-REFERENCIA-RAPIDA.md`
+
 Retorne exatamente nesta estrutura:
 
 ### 1. Tabela RICE
@@ -599,10 +601,18 @@ pontuacoes/
 **Data:** [DATA]
 **Projeto:** [NOME DO PROJETO]
 
+> **Referência:** Para detalhes sobre siglas, escalas, fórmulas e níveis de complexidade, consulte: `GUIA-REFERENCIA-RAPIDA.md`
+
 ## Ranking Final (RICE + WSJF)
 
-| US | Título | RICE Score | WSJF | Prioridade | Fase |
-|----|--------|------------|------|------------|------|
+**Ordenação:** Por categoria (Must → Should → Could) e dentro de cada categoria por RICE Score descendente.
+
+| US | Título | Categoria | Fase | RICE Score | WSJF | Story Points |
+|----|--------|-----------|------|------------|------|--------------|
+| US-XX | [Título] | Must | X | XXXX | X.X | X |
+| US-YY | [Título] | Must | X | XXXX | X.X | X |
+| US-ZZ | [Título] | Should | X | XXXX | X.X | X |
+| US-WW | [Título] | Could | X | XXXX | X.X | X |
 
 ## Fases de Implementação
 
