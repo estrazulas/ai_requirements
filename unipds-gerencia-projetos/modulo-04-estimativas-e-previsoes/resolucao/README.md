@@ -119,6 +119,76 @@ python3 monte-carlo-analise-documental.py
 
 ---
 
+## Entendendo os Percentis (P50, P85, P95)
+
+### O que são percentis?
+
+Imagine que você rodou o projeto 10.000 vezes no Monte Carlo. Cada simulação deu um resultado diferente (7, 8, 9, 10, 11 sprints...). Os percentis mostram a distribuição desses resultados.
+
+### Definição simples
+
+**P50 (Percentil 50):**
+- 50% das simulações terminaram em **9 sprints ou menos**
+- 50% das simulações demoraram **mais de 9 sprints**
+- É a **mediana** — o cenário "meio a meio"
+- **Interpretação:** "Se tudo correr razoavelmente bem, termino em 9 sprints"
+
+**P85 (Percentil 85):**
+- 85% das simulações terminaram em **10 sprints ou menos**
+- Apenas 15% das simulações demoraram **mais de 10 sprints**
+- **Interpretação:** "Tenho 85% de chance de cumprir o prazo se prometer 10 sprints"
+- **Uso:** Compromisso com cliente (alto nível de confiança)
+
+**P95 (Percentil 95):**
+- 95% das simulações terminaram em **11 sprints ou menos**
+- Apenas 5% das simulações demoraram **mais de 11 sprints**
+- **Interpretação:** "Tenho 95% de chance de cumprir o prazo se prometer 11 sprints"
+- **Uso:** Cenário conservador (margem de segurança máxima)
+
+### Analogia prática
+
+```
+Você vai viajar de carro para outra cidade (200km).
+
+P50 = 2h30min
+  → "Normalmente chego em 2h30, mas pode variar"
+
+P85 = 3h00min  
+  → "Se sair às 8h, tenho 85% de chance de chegar antes das 11h"
+
+P95 = 3h30min
+  → "Se tiver imprevisto (trânsito, chuva), posso levar 3h30"
+```
+
+### Aplicado ao nosso projeto
+
+```
+P50 = 9 sprints (18 semanas)
+  → "Cenário provável: se tudo correr razoavelmente bem"
+
+P85 = 10 sprints (20 semanas)
+  → "Compromisso seguro: 85% de chance de cumprir"
+
+P95 = 11 sprints (22 semanas)
+  → "Conservador: margem para imprevistos graves"
+```
+
+### Qual percentil usar?
+
+| Percentil | Confiança | Quando usar |
+|-----------|-----------|-------------|
+| P50 | 50% | Planejamento interno (cara ou coroa) |
+| P85 | 85% | **Compromisso com cliente** (recomendado) |
+| P95 | 95% | Contratos com multa por atraso |
+
+### Recomendação para este projeto
+
+- **Prometa ao cliente:** 10 sprints (P85)
+- **Planeje internamente:** 9 sprints (P50)
+- **Tenha contingência:** 11 sprints (P95)
+
+---
+
 ## Por que o Monte Carlo é mais conservador que o cronograma?
 
 1. **Incerteza real:** O cronograma assume effort fixo, o Monte Carlo considera variação
