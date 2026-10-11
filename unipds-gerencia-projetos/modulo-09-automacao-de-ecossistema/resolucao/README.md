@@ -97,6 +97,177 @@ python ecosystem-bot-gitlab-glpi.py --local
 
 Este modo demonstra os fluxos sem chamar APIs reais, usando os arquivos de mock.
 
+#### Exemplos de Teste com Mocks
+
+**Cenário 1: MR criado → cria ticket no GLPI**
+
+O arquivo `mr-mock.json` contém um MR simulado:
+
+```json
+{
+  "iid": 42,
+  "title": "Implementar validação de CPF em formulário de cadastro",
+  "state": "opened",
+  "author": {
+    "name": "João Silva",
+    "username": "joao.silva"
+  },
+  "source_branch": "feature/validacao-cpf",
+  "target_branch": "main",
+  "web_url": "https://git.ifsc.edu.br/projeto/exemplo/-/merge_requests/42",
+  "description": "Adiciona validação de CPF no formulário de cadastro de usuários..."
+}
+```
+
+**Executar teste:**
+
+```bash
+python ecosystem-bot-gitlab-glpi.py --local
+```
+
+**Saída esperada:**
+
+```
+============================================================
+MODO LOCAL - DEMONSTRAÇÃO COM MOCKS
+============================================================
+
+CENÁRIO 1: MR criado → cria ticket no GLPI
+------------------------------------------------------------
+MR !42: Implementar validação de CPF em formulário de cadastro
+Status: opened
+Autor: João Silva
+
+Ações que seriam executadas:
+  1. Buscar MR no GitLab
+  2. Verificar se já existe ticket vinculado
+  3. Criar ticket no GLPI com título: [MR !42] Implementar validação de CPF...
+  4. Adicionar comentário no MR com link do ticket
+
+CENÁRIO 2: Status do ticket muda → notifica no MR
+------------------------------------------------------------
+Ticket #1234: [MR !42] Implementar validação de CPF em formulário de cadastro
+Novo status: 2
+
+Ações que seriam executadas:
+  1. Buscar ticket no GLPI
+  2. Extrair MR IID do título: !42
+  3. Adicionar comentário no MR com atualização do ticket
+
+============================================================
+Para testar em produção, configure o .env e execute:
+  python ecosystem-bot-gitlab-glpi.py
+============================================================
+```
+
+**Cenário 2: Ticket atualizado → notifica no MR**
+
+O arquivo `ticket-mock.json` contém um ticket simulado:
+
+```json
+{
+  "id": 1234,
+  "name": "[MR !42] Implementar validação de CPF em formulário de cadastro",
+  "status": 2,
+  "content": "Ticket criado automaticamente para rastrear o Merge Request.",
+  "date_creation": "2026-03-15T10:30:00-03:00"
+}
+```
+
+O bot extrai o MR IID (`!42`) do título do ticket e adiciona comentário no MR correspondente.
+
+#### Criando Mocks Personalizados
+
+Você pode criar seus próprios mocks para testar cenários específicos:
+
+**mr-mock-personalizado.json:**
+
+```json
+{
+  "iid": 99,
+  "title": "Corrigir bug de autenticação OAuth",
+  "state": "merged",
+  "author": {
+    "name": "Maria Santos",
+    "username": "maria.santos"
+  },
+  "source_branch": "fix/oauth-bug",
+  "target_branch": "main",
+  "web_url": "https://git.ifsc.edu.br/projeto/exemplo/-/merge_requests/99",
+  "description": "Corrige problema de timeout na autenticação OAuth com Google."
+}
+```
+
+**ticket-mock-personalizado.json:**
+
+```json
+{
+  "id": 5678,
+  "name": "[MR !99] Corrigir bug de autenticação OAuth",
+  "status": 6,
+  "content": "Ticket resolvido - bug corrigido e testado.",
+  "date_creation": "2026-03-20T14:15:00-03:00"
+}
+```
+
+**Testar com mock personalizado:**
+
+```bash
+# Copie os mocks personalizados para os arquivos esperados
+cp mr-mock-personalizado.json mr-mock.json
+cp ticket-mock-personalizado.json ticket-mock.json
+
+# Execute o teste
+python ecosystem-bot-gitlab-glpi.py --local
+```
+
+#### Simulando Webhooks em Produção
+
+Para testar os endpoints webhook localmente sem expor o servidor:
+
+**1. Inicie o servidor webhook:**
+
+```bash
+python ecosystem-bot-gitlab-glpi.py
+```
+
+**2. Teste o endpoint do GitLab (em outro terminal):**
+
+```bash
+# Simula webhook de MR criado
+curl -X POST http://localhost:5000/webhook/gitlab \
+  -H "Content-Type: application/json" \
+  -d '{
+    "object_kind": "merge_request",
+    "object_attributes": {
+      "iid": 42,
+      "title": "Teste de webhook",
+      "state": "opened"
+    }
+  }'
+```
+
+**3. Teste o endpoint do GLPI:**
+
+```bash
+# Simula webhook de ticket atualizado
+curl -X POST http://localhost:5000/webhook/glpi \
+  -H "Content-Type: application/json" \
+  -d '{
+    "id": 1234,
+    "status": 2,
+    "comment": "Ticket em andamento"
+  }'
+```
+
+**4. Verifique health check:**
+
+```bash
+curl http://localhost:5000/health
+```
+
+Saída esperada: `{"status": "ok", "service": "ecosystem-bot"}`
+
 ### 4. Executar em Produção (Modo Webhook)
 
 ```bash
