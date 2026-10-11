@@ -1,0 +1,13 @@
+{
+  "iid": 42,
+  "title": "Implementar validação de CPF em formulário de cadastro",
+  "state": "opened",
+  "author": {
+    "name": "João Silva",
+    "username": "joao.silva"
+  },
+  "source_branch": "feature/validacao-cpf",
+  "target_branch": "main",
+  "web_url": "https://git.ifsc.edu.br/projeto/exemplo/-/merge_requests/42",
+  "description": "Adiciona validação de CPF no formulário de cadastro de usuários.\n\n- Validação de formato\n- Validação de dígitos verificadores\n- Testes unitários incluídos"
+}
