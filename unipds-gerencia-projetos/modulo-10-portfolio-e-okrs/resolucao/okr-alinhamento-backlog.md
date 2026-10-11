@@ -190,5 +190,25 @@ Fonte: `modulo-02-priorizacao-de-backlog/resolucao/analise-requisitos-analise-do
 
 ---
 
+## Curadoria — Pontos de Discussão
+
+**Ponto 1 — US-12 como candidato à postergação:**
+O OKR Aligner classificou US-12 (Exportar CSV/HTML) como Não Alinhada — automatiza publicação externa mas não move nenhum KR do ciclo. Se aplicarmos o WSJF (Módulo 2), US-12 teria Business Value baixo (2) e Time Criticality baixa (2), resultando em WSJF ≈ 1,67. **Quando dois frameworks independentes (OKR Aligner + WSJF) chegam à mesma conclusão, a recomendação de postergar é fortíssima.** Argumento defensável: não é opinião, é convergência de evidência.
+
+**Ponto 2 — Cadeia de dependência crítica US-13 → US-08:**
+O OKR Aligner tornou visível que US-13 (Perfil Analista) é pré-requisito de segurança para US-08 (Analista pontua documentos). US-08 é coração do KR 1.1 e KR 1.2. Se US-13 atrasar, US-08 bloqueia, e todo o épico E4 (Análise e Classificação) fica em risco. **Esse tipo de cadeia de dependência raramente aparece em reunião de priorização manual** — é exatamente o valor do alinhamento estratégico com OKRs.
+
+**Ponto 3 — Itens de alta alavancagem (movem múltiplos KRs):**
+US-08 (Analista pontua documentos) e US-16 (Candidato visualiza status) são os únicos itens que movem 2+ KRs simultaneamente:
+- US-08 → KR 1.1 (% editais digitais) + KR 1.2 (tempo 30→7 dias)
+- US-16 → KR 2.1 (60% consultam portal) + KR 2.2 (50→0 chamados) + KR 2.3 (30→1 dia)
+
+**Esses são os itens de maior ROI estratégico** — priorizar no início do ciclo maximiza impacto em múltiplas dimensões.
+
+**Ponto 4 — Classificação limítrofe de US-07:**
+US-07 (Candidato altera documentos dentro do prazo) foi classificada como Alinhada Indiretamente — melhora UX mas não é essencial para KR 1.1. Poderia ser defendida como Alinhada Diretamente se o argumento for "reduz retrabalho do analista ao permitir correção pelo candidato". **A classificação correta depende de como o gestor define "contribuição direta"** — use como ponto de curadoria: a decisão é humana, o framework informa.
+
+---
+
 *Documento gerado em 2026-10-11 como parte do Módulo 10 - Portfolio e OKRs*
 *Prof. Ahirton Lopes, Ph.D. — UNIPDS: Ferramentas de IA para Gestão de Projetos*
