@@ -741,6 +741,88 @@ def run_parse_demo(message: str):
     print("\n" + "="*60 + "\n")
 
 
+def run_simulate_demo(message: str, channel: str = "#teste", user_id: str = "usuario.teste"):
+    """
+    Executa demonstração do parser com registro de log de auditoria.
+    Simula criação de ticket sem chamar API real do GLPI.
+    """
+    print("\n" + "="*60)
+    print("MODO SIMULATE - TESTE COM AUDITORIA")
+    print("="*60 + "\n")
+    
+    print(f"Mensagem original: {message}")
+    print(f"Canal: {channel}")
+    print(f"User ID: {user_id}")
+    print()
+    print("Processando com IA...")
+    
+    try:
+        # 1. Parse da mensagem
+        parsed = parse_natural_language(message)
+        
+        print("\n✅ Parsing concluído")
+        print(f"   Tipo: {parsed.get('type')}")
+        print(f"   Título: {parsed.get('title')}")
+        print(f"   Confiança: {parsed.get('confidence')}")
+        
+        # 2. Simula criação de ticket (ID fictício)
+        simulated_ticket_id = 9999
+        
+        print(f"\n📝 Simulando criação de ticket #{simulated_ticket_id}...")
+        
+        # 3. Registra log de auditoria
+        audit_metadata = {
+            "channel": channel,
+            "user_id": user_id,
+            "message_id": f"msg_{datetime.now().strftime('%Y%m%d%H%M%S')}",
+        }
+        
+        audit_log = audit_logger.log_ticket_creation(
+            message=message,
+            parsed=parsed,
+            ticket_id=simulated_ticket_id,
+            metadata=audit_metadata
+        )
+        
+        print(f"✅ Log de auditoria registrado")
+        print(f"   Arquivo: {audit_logger.log_file}")
+        print(f"   Timestamp: {audit_log['timestamp']}")
+        print(f"   Prompt version: {audit_log['prompt_version']}")
+        print(f"   Prompt hash: {audit_log['prompt_hash']}")
+        
+        # 4. Mostra o log completo
+        print("\n" + "-"*60)
+        print("LOG DE AUDITORIA COMPLETO:")
+        print("-"*60)
+        print(json.dumps(audit_log, indent=2, ensure_ascii=False))
+        
+        # 5. Demonstra consulta
+        print("\n" + "-"*60)
+        print("CONSULTANDO LOG VIA API (simulação):")
+        print("-"*60)
+        
+        retrieved_log = audit_logger.get_log_by_ticket_id(simulated_ticket_id)
+        if retrieved_log:
+            print(f"✅ Log encontrado para ticket #{simulated_ticket_id}")
+            print(f"   Mensagem original: {retrieved_log['original_message']}")
+            print(f"   Canal: {retrieved_log.get('channel')}")
+            print(f"   User ID: {retrieved_log.get('user_id')}")
+            print(f"   Prompt version: {retrieved_log.get('prompt_version')}")
+            print(f"   AI Provider: {retrieved_log.get('ai_provider')}")
+            print(f"   AI Model: {retrieved_log.get('ai_model')}")
+        
+        print("\n" + "="*60)
+        print("Para consultar logs em produção:")
+        print(f"  curl http://localhost:5000/audit?ticket_id={simulated_ticket_id}")
+        print(f"  cat {audit_logger.log_file}")
+        print("="*60 + "\n")
+        
+    except Exception as e:
+        print(f"\n❌ Erro ao processar mensagem: {e}")
+        import traceback
+        traceback.print_exc()
+
+
 # ---------------------------------------------------------------------------
 # MODO LOCAL (TESTES COM MOCKS)
 # ---------------------------------------------------------------------------
@@ -1029,6 +1111,12 @@ if __name__ == "__main__":
         metavar="MENSAGEM",
         help="Modo NL Parser: converte mensagem em linguagem natural em JSON estruturado"
     )
+    parser.add_argument(
+        "--simulate",
+        type=str,
+        metavar="MENSAGEM",
+        help="Modo simulação: parse + registro de log de auditoria (sem criar ticket real)"
+    )
     args = parser.parse_args()
     
     if args.parse:
@@ -1038,6 +1126,13 @@ if __name__ == "__main__":
             print("   Configure OPENAI_API_KEY ou ANTHROPIC_API_KEY no arquivo .env")
             sys.exit(1)
         run_parse_demo(args.parse)
+    elif args.simulate:
+        # Modo simulação com auditoria
+        if not OPENAI_API_KEY and not ANTHROPIC_API_KEY:
+            print("❌ Chave de API de IA não configurada.")
+            print("   Configure OPENAI_API_KEY ou ANTHROPIC_API_KEY no arquivo .env")
+            sys.exit(1)
+        run_simulate_demo(args.simulate)
     elif args.local:
         run_local_demo()
     else:
