@@ -1,0 +1,22 @@
+{
+  "gitlab_url": "https://git.ifsc.edu.br",
+  
+  "critical_paths": [
+    "src/integrations/gps",
+    "src/services/notifications",
+    "src/api/routes",
+    "migrations/",
+    ".env",
+    "docker-compose"
+  ],
+  
+  "critical_approvers": 2,
+  
+  "large_mr_threshold": 500,
+  
+  "coverage_drop_threshold": 5,
+  
+  "issue_pattern": "#\\d+",
+  
+  "min_description_length": 30
+}

@@ -1,2 +1,10 @@
 .DS_Store
 *.docx
+
+# Variáveis de ambiente
+.env
+.env.local
+.env.*.local
+
+# Permitir arquivos de exemplo
+!.env.example

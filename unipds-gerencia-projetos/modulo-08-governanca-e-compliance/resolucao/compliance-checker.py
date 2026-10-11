@@ -41,6 +41,18 @@ import sys
 from pathlib import Path
 
 # ---------------------------------------------------------------------------
+# CARREGA VARIÁVEIS DE AMBIENTE DO ARQUIVO .env
+# ---------------------------------------------------------------------------
+
+try:
+    from dotenv import load_dotenv
+    env_path = Path(__file__).parent / ".env"
+    if env_path.exists():
+        load_dotenv(env_path)
+except ImportError:
+    pass  # python-dotenv não instalado, usa variáveis de ambiente do sistema
+
+# ---------------------------------------------------------------------------
 # CONFIGURACAO
 # ---------------------------------------------------------------------------
 

@@ -5,6 +5,22 @@ Adaptado do danger-config-routewise.py para GitLab (git.ifsc.edu.br)
 Substitui Jira por referencias a issues do GitLab (#numero)
 
 ===========================================================================
+ARQUIVO DE CONFIGURACAO
+===========================================================================
+
+As regras de governanca estao no arquivo governance-config.json.
+Edite esse arquivo para ajustar as regras sem alterar o script.
+
+Parametros configuraveis:
+    - gitlab_url: URL do seu GitLab
+    - critical_paths: pastas que exigem revisao adicional
+    - critical_approvers: quantos revisores sao necessarios
+    - large_mr_threshold: limite de linhas antes do aviso
+    - coverage_drop_threshold: queda de cobertura tolerada
+    - issue_pattern: regex para validar referencia a issues
+    - min_description_length: tamanho minimo da descricao
+
+===========================================================================
 COMO USAR: DOIS CENARIOS DE DEMO
 ===========================================================================
 
@@ -31,7 +47,7 @@ O script roda automaticamente no pipeline do GitLab CI/CD.
 
 Passos:
 
-    1. Copie este script para a raiz do seu repositorio no GitLab.
+    1. Copie este script e o governance-config.json para a raiz do seu repositorio.
 
     2. Crie ou edite .gitlab-ci.yml na raiz do projeto:
 
@@ -45,7 +61,7 @@ Passos:
                - if: $CI_MERGE_REQUEST_IID
              allow_failure: false
 
-    3. Ajuste o bloco CONFIG no inicio do script para o seu projeto:
+    3. Edite o arquivo governance-config.json para o seu projeto:
        - critical_paths: pastas que exigem revisao adicional
        - critical_approvers: quantos revisores sao necessarios
        - large_mr_threshold: limite de linhas antes do aviso
@@ -91,32 +107,25 @@ import sys
 from pathlib import Path
 
 # ---------------------------------------------------------------------------
-# CONFIGURACAO DO PROJETO -- ajuste para o seu contexto
+# CARREGA CONFIGURACAO DO ARQUIVO governance-config.json
 # ---------------------------------------------------------------------------
 
-CONFIG = {
-    # URL do GitLab (ajuste se necessario)
-    "gitlab_url": "https://git.ifsc.edu.br",
+CONFIG_PATH = Path(__file__).parent / "governance-config.json"
 
-    # Arquivos criticos que exigem pelo menos N aprovadores
-    "critical_paths": [
-        "src/integrations/gps",
-        "src/services/notifications",
-        "src/api/routes",
-        "migrations/",
-        ".env",
-        "docker-compose",
-    ],
-
-    # Numero minimo de aprovadores para arquivos criticos
-    "critical_approvers": 2,
-
-    # Tamanho maximo de MR antes de emitir aviso (linhas)
-    "large_mr_threshold": 500,
-
-    # Queda de cobertura de testes (pontos percentuais) que gera aviso
-    "coverage_drop_threshold": 5,
-}
+if CONFIG_PATH.exists():
+    CONFIG = json.loads(CONFIG_PATH.read_text())
+else:
+    print(f"Aviso: arquivo de configuracao nao encontrado: {CONFIG_PATH}")
+    print("Usando configuracao padrao. Crie governance-config.json para personalizar.")
+    CONFIG = {
+        "gitlab_url": "https://git.ifsc.edu.br",
+        "critical_paths": [],
+        "critical_approvers": 2,
+        "large_mr_threshold": 500,
+        "coverage_drop_threshold": 5,
+        "issue_pattern": r"#\d+",
+        "min_description_length": 30,
+    }
 
 # ---------------------------------------------------------------------------
 # ARGPARSE -- modo local vs modo CI
@@ -222,9 +231,9 @@ messages = []
 # REGRA 1 -- O MR deve referenciar uma issue do GitLab
 # ---------------------------------------------------------------------------
 
-gitlab_pattern = re.compile(r"#\d+")
+issue_pattern = re.compile(CONFIG.get("issue_pattern", r"#\d+"))
 
-if not gitlab_pattern.search(mr_title) and not gitlab_pattern.search(mr_description):
+if not issue_pattern.search(mr_title) and not issue_pattern.search(mr_description):
     failures.append(
         f"Referencia a issue nao encontrada. O titulo ou a descricao deve conter "
         f"o numero da issue (ex: #42). "
@@ -309,11 +318,13 @@ else:
 # REGRA 5 -- MRs sem descricao recebem aviso
 # ---------------------------------------------------------------------------
 
-if len(mr_description.strip()) < 30:
+min_desc_length = CONFIG.get("min_description_length", 30)
+
+if len(mr_description.strip()) < min_desc_length:
     warnings.append(
-        "Descricao do MR muito curta ou ausente. "
-        "Uma boa descricao explica o que muda e por que -- nao apenas lista arquivos. "
-        "Isso facilita revisao, rollback e historico do projeto."
+        f"Descricao do MR muito curta ou ausente (minimo: {min_desc_length} caracteres). "
+        f"Uma boa descricao explica o que muda e por que -- nao apenas lista arquivos. "
+        f"Isso facilita revisao, rollback e historico do projeto."
     )
 
 # ---------------------------------------------------------------------------

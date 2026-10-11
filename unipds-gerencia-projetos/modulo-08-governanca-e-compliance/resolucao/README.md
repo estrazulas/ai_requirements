@@ -17,8 +17,94 @@ Script Python de governança automatizada para Merge Requests no GitLab, adaptad
 ## Arquivos incluídos
 
 - `danger-gitlab-ifsc.py` — Script principal de governança
+- `governance-config.json` — Arquivo de configuração das regras (edite este!)
 - `mr-mock-sucesso.json` — Exemplo de MR que passa em todas as regras
 - `mr-mock-falha.json` — Exemplo de MR que falha em múltiplas regras
+- `compliance-checker.py` — Checklist de compliance com IA (OpenAI/Anthropic)
+
+## Personalizando as regras (sem alterar o script)
+
+Edite o arquivo `governance-config.json` para ajustar as regras de governança ao seu projeto:
+
+```json
+{
+  "gitlab_url": "https://git.ifsc.edu.br",
+  
+  "critical_paths": [
+    "src/integrations/gps",
+    "src/services/notifications",
+    "src/api/routes",
+    "migrations/",
+    ".env",
+    "docker-compose"
+  ],
+  
+  "critical_approvers": 2,
+  "large_mr_threshold": 500,
+  "coverage_drop_threshold": 5,
+  "issue_pattern": "#\\d+",
+  "min_description_length": 30
+}
+```
+
+### Parâmetros configuráveis
+
+| Parâmetro | Descrição | Padrão |
+|---|---|---|
+| `gitlab_url` | URL do seu GitLab | `https://git.ifsc.edu.br` |
+| `critical_paths` | Pastas que exigem revisores adicionais | Veja exemplo acima |
+| `critical_approvers` | Número mínimo de aprovadores para arquivos críticos | `2` |
+| `large_mr_threshold` | Limite de linhas antes de avisar sobre MR grande | `500` |
+| `coverage_drop_threshold` | Queda de cobertura (%) que gera aviso | `5` |
+| `issue_pattern` | Regex para validar referência a issues | `#\d+` |
+| `min_description_length` | Tamanho mínimo da descrição do MR | `30` |
+
+### Exemplos de personalização
+
+**Usar padrão diferente para issues (ex: `ISSUE-123`):**
+
+```json
+{
+  "issue_pattern": "ISSUE-\\d+"
+}
+```
+
+**Aumentar limite de linhas para MRs grandes:**
+
+```json
+{
+  "large_mr_threshold": 1000
+}
+```
+
+**Adicionar mais caminhos críticos:**
+
+```json
+{
+  "critical_paths": [
+    "src/auth/",
+    "src/payments/",
+    "migrations/",
+    ".env"
+  ]
+}
+```
+
+**Reduzir número de aprovadores para 1:**
+
+```json
+{
+  "critical_approvers": 1
+}
+```
+
+**Desativar verificação de caminhos críticos (lista vazia):**
+
+```json
+{
+  "critical_paths": []
+}
+```
 
 ## Como usar localmente (testes offline)
 
@@ -340,10 +426,16 @@ O script:
 ### Como usar localmente
 
 ```bash
-# Configura chave da API
-export OPENAI_API_KEY="sk-..."
+# 1. Copie o arquivo .env.example para .env
+cp .env.example .env
 
-# Roda com mock
+# 2. Edite o .env e adicione sua chave da API
+# OPENAI_API_KEY=sk-your-key-here
+
+# 3. Instale as dependências
+pip install openai requests python-dotenv
+
+# 4. Roda com mock
 python compliance-checker.py --local --mock mr-mock-sucesso.json
 ```
 
@@ -397,7 +489,7 @@ compliance-review:
   stage: compliance
   image: python:3.11-slim
   script:
-    - pip install openai requests
+    - pip install openai requests python-dotenv
     - python compliance-checker.py
   rules:
     - if: $CI_MERGE_REQUEST_IID
@@ -412,13 +504,22 @@ compliance-review:
 2. Adicione `OPENAI_API_KEY` com sua chave da API
 3. Marque como **Masked** e **Protected**
 
+**Nota:** No CI/CD, o script lê a variável de ambiente diretamente (não precisa do arquivo `.env`).
+
 ### Usando Anthropic (Claude) em vez de OpenAI
 
-```bash
-export ANTHROPIC_API_KEY="sk-ant-..."
-export AI_PROVIDER="anthropic"
-export AI_MODEL="claude-3-5-sonnet-20241022"
+Edite o arquivo `.env`:
 
+```bash
+ANTHROPIC_API_KEY=sk-ant-your-key-here
+AI_PROVIDER=anthropic
+AI_MODEL=claude-3-5-sonnet-20241022
+```
+
+Depois execute:
+
+```bash
+pip install anthropic requests python-dotenv
 python compliance-checker.py --local --mock mr-mock-sucesso.json
 ```
 
