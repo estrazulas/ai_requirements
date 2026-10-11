@@ -32,6 +32,8 @@ import json
 import os
 import sys
 from pathlib import Path
+from datetime import datetime
+import hashlib
 
 try:
     from dotenv import load_dotenv
@@ -42,6 +44,135 @@ except ImportError:
     pass
 
 import requests
+
+# ---------------------------------------------------------------------------
+# CONFIGURAÇÃO DE AUDITORIA
+# ---------------------------------------------------------------------------
+
+AUDIT_LOG_FILE = os.environ.get("AUDIT_LOG_FILE", "audit_log.jsonl")
+PROMPT_VERSION = "1.0.0"  # Versão do NL_PARSER_PROMPT
+
+# ---------------------------------------------------------------------------
+# SISTEMA DE AUDITORIA
+# ---------------------------------------------------------------------------
+
+class AuditLogger:
+    """
+    Sistema de auditoria para rastrear criação de tickets.
+    Registra logs em formato JSONL (uma linha por evento).
+    """
+    
+    def __init__(self, log_file=AUDIT_LOG_FILE):
+        self.log_file = Path(log_file)
+    
+    def _get_prompt_hash(self):
+        """Retorna hash MD5 do prompt para versionamento"""
+        return hashlib.md5(NL_PARSER_PROMPT.encode()).hexdigest()[:12]
+    
+    def log_ticket_creation(self, message, parsed, ticket_id, metadata=None):
+        """
+        Registra criação de ticket com metadados de auditoria.
+        
+        Args:
+            message: Mensagem original em linguagem natural
+            parsed: JSON parseado pela IA
+            ticket_id: ID do ticket criado no GLPI
+            metadata: Dict com informações adicionais (canal, user_id, etc)
+        """
+        log_entry = {
+            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "event": "ticket_created",
+            "prompt_version": PROMPT_VERSION,
+            "prompt_hash": self._get_prompt_hash(),
+            "ai_provider": AI_PROVIDER,
+            "ai_model": AI_MODEL,
+            "message_id": metadata.get("message_id") if metadata else None,
+            "channel": metadata.get("channel") if metadata else None,
+            "user_id": metadata.get("user_id") if metadata else None,
+            "original_message": message,
+            "parsed_output": parsed,
+            "ticket_id": ticket_id,
+            "confidence": parsed.get("confidence"),
+            "ticket_type": parsed.get("type"),
+            "priority": parsed.get("priority"),
+            "assignee": parsed.get("assignee"),
+        }
+        
+        with open(self.log_file, "a", encoding="utf-8") as f:
+            f.write(json.dumps(log_entry, ensure_ascii=False) + "\n")
+        
+        return log_entry
+    
+    def log_mr_sync(self, mr_iid, ticket_id, action):
+        """
+        Registra sincronização MR ↔ ticket.
+        
+        Args:
+            mr_iid: ID do Merge Request
+            ticket_id: ID do ticket GLPI
+            action: "mr_to_ticket" ou "ticket_to_mr"
+        """
+        log_entry = {
+            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "event": "mr_sync",
+            "action": action,
+            "mr_iid": mr_iid,
+            "ticket_id": ticket_id,
+        }
+        
+        with open(self.log_file, "a", encoding="utf-8") as f:
+            f.write(json.dumps(log_entry, ensure_ascii=False) + "\n")
+        
+        return log_entry
+    
+    def get_logs(self, limit=100, event_type=None):
+        """
+        Retorna logs de auditoria.
+        
+        Args:
+            limit: Número máximo de logs a retornar
+            event_type: Filtrar por tipo de evento (ticket_created, mr_sync)
+        
+        Returns:
+            Lista de logs em ordem cronológica reversa (mais recente primeiro)
+        """
+        if not self.log_file.exists():
+            return []
+        
+        logs = []
+        with open(self.log_file, "r", encoding="utf-8") as f:
+            for line in f:
+                try:
+                    log = json.loads(line.strip())
+                    if event_type and log.get("event") != event_type:
+                        continue
+                    logs.append(log)
+                except json.JSONDecodeError:
+                    continue
+        
+        # Retorna mais recentes primeiro
+        logs.reverse()
+        return logs[:limit]
+    
+    def get_log_by_ticket_id(self, ticket_id):
+        """
+        Busca log de criação de um ticket específico.
+        
+        Args:
+            ticket_id: ID do ticket GLPI
+        
+        Returns:
+            Log do ticket ou None se não encontrado
+        """
+        logs = self.get_logs(event_type="ticket_created")
+        for log in logs:
+            if log.get("ticket_id") == ticket_id:
+                return log
+        return None
+
+
+# Instância global do logger
+audit_logger = AuditLogger()
 
 # ---------------------------------------------------------------------------
 # CONFIGURAÇÃO DE IA (OPCIONAL)
@@ -775,10 +906,28 @@ def run_webhook_server():
             
             bot.glpi.add_followup(ticket_id, metadata)
             
+            # 5. Registra log de auditoria
+            audit_metadata = {
+                "channel": data.get("channel"),
+                "user_id": data.get("user_id"),
+                "message_id": data.get("message_id"),
+            }
+            audit_log = audit_logger.log_ticket_creation(
+                message=message,
+                parsed=parsed,
+                ticket_id=ticket_id,
+                metadata=audit_metadata
+            )
+            
             return jsonify({
                 "status": "ok",
                 "ticket_id": ticket_id,
                 "parsed": parsed,
+                "audit": {
+                    "log_id": audit_log.get("timestamp"),
+                    "prompt_version": audit_log.get("prompt_version"),
+                    "prompt_hash": audit_log.get("prompt_hash"),
+                },
                 "message": f"Ticket #{ticket_id} criado com sucesso"
             })
             
@@ -790,6 +939,52 @@ def run_webhook_server():
         """Endpoint de health check"""
         return jsonify({"status": "ok", "service": "ecosystem-bot"})
     
+    @app.route("/audit", methods=["GET"])
+    def audit():
+        """
+        Endpoint para consultar logs de auditoria.
+        
+        Parâmetros:
+            - limit: Número máximo de logs (default: 100)
+            - event_type: Filtrar por tipo (ticket_created, mr_sync)
+            - ticket_id: Buscar log específico de um ticket
+        
+        Exemplo de uso:
+            curl http://localhost:5000/audit?limit=10
+            curl http://localhost:5000/audit?ticket_id=1234
+            curl http://localhost:5000/audit?event_type=ticket_created
+        """
+        limit = request.args.get("limit", 100, type=int)
+        event_type = request.args.get("event_type")
+        ticket_id = request.args.get("ticket_id", type=int)
+        
+        try:
+            if ticket_id:
+                # Busca log específico de um ticket
+                log = audit_logger.get_log_by_ticket_id(ticket_id)
+                if log:
+                    return jsonify({
+                        "status": "ok",
+                        "found": True,
+                        "log": log
+                    })
+                else:
+                    return jsonify({
+                        "status": "ok",
+                        "found": False,
+                        "message": f"Nenhum log encontrado para ticket #{ticket_id}"
+                    }), 404
+            else:
+                # Lista logs com filtros
+                logs = audit_logger.get_logs(limit=limit, event_type=event_type)
+                return jsonify({
+                    "status": "ok",
+                    "count": len(logs),
+                    "logs": logs
+                })
+        except Exception as e:
+            return jsonify({"status": "error", "message": str(e)}), 500
+    
     print("\n" + "="*60)
     print("SERVIDOR WEBHOOK INICIADO")
     print("="*60)
@@ -798,6 +993,7 @@ def run_webhook_server():
     print("  POST /webhook/glpi    - Recebe atualizações de ticket do GLPI")
     print("  POST /webhook/chat    - Recebe mensagens em linguagem natural (NL Parser)")
     print("  GET  /health          - Health check")
+    print("  GET  /audit           - Consulta logs de auditoria")
     print()
     print("Configure os webhooks:")
     print(f"  GitLab: {CONFIG['gitlab_url']}/hooks")
@@ -807,6 +1003,10 @@ def run_webhook_server():
     print('  curl -X POST http://localhost:5000/webhook/chat \\')
     print('    -H "Content-Type: application/json" \\')
     print('    -d \'{"message": "Preciso investigar bug no login OAuth"}\'')
+    print()
+    print("Exemplo de consulta de auditoria:")
+    print('  curl http://localhost:5000/audit?limit=10')
+    print('  curl http://localhost:5000/audit?ticket_id=1234')
     print("="*60 + "\n")
     
     app.run(host="0.0.0.0", port=5000, debug=False)

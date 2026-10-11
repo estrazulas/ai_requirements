@@ -10,5 +10,8 @@
 venv/
 .venv/
 
+# Logs de auditoria
+audit_log.jsonl
+
 # Permitir arquivos de exemplo
 !.env.example
