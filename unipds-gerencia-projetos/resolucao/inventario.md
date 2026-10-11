@@ -24,6 +24,8 @@ Criei uma skill personalizada (backlog-scorer-skill) que aplica dois frameworks 
 **Cronograma de Sprints com Alocação de Capacidade**
 Construí um cronograma detalhado de sprints considerando capacidade do time (6 devs, 35 SP/sprint), dependências entre user stories, e restrições de hardware (lead time de 60 dias para sensores IoT). O cronograma foi atualizado para refletir ajustes de capacidade e priorização, com visão de entrega por sprint e marcos do projeto.
 
+> **Pendente:** Aplicar o Scheduling Prompt com os dados do meu projeto de processos seletivos acadêmicos (16 user stories, 6 épicos, dependências entre US-01→US-06→US-08, validador PDF pendente). O output esperado é um cronograma próprio com alocação de capacidade por sprint, identificação de caminho crítico, e ajustes baseados em restrições de dependência e capacidade.
+
 ---
 
 ## Módulo 4: Estimativas e Previsões
@@ -38,6 +40,8 @@ Apliquei técnica de estimativa de três pontos (otimista, mais provável, pessi
 **Registro de Riscos com Mitigação Automatizada**
 Construí um registro de riscos do projeto com classificação (probabilidade × impacto), planos de mitigação, e donos para cada risco. Integrei conceitos de AIOps para monitoramento proativo de riscos em produção, incluindo alertas automatizados e respostas programadas a cenários de risco materializados.
 
+> **Pendente:** Aplicar o Risk Monitor Prompt com os dados do meu projeto de processos seletivos acadêmicos. O output esperado é um registro de riscos estruturado com: (1) tabela de riscos classificados por probabilidade × impacto, (2) planos de mitigação com donos, (3) gatilhos de alerta para riscos materializados, (4) integração com AIOps para monitoramento contínuo. Riscos específicos do meu projeto: visualizador PDF (viabilidade técnica), modelo de permissões (vinculação granular), base ENEM (reaproveitamento não documentado), formato de relatórios (pendente de referência).
+
 ---
 
 ## Módulo 6: Reuniões Turbinadas
@@ -45,12 +49,16 @@ Construí um registro de riscos do projeto com classificação (probabilidade ×
 **Meeting Digest Skill para Síntese de Reuniões**
 Criei uma skill (meeting-digest-skill) que transforma transcrições de reuniões em digests estruturados com decisões tomadas, ações definidas (com dono e prazo), riscos identificados, e perguntas em aberto. O output é formatado para consumo assíncrono, eliminando necessidade de atas manuais e garantindo que todas as ações tenham rastreabilidade.
 
+> **Pendente:** Aplicar o Meeting Digest Prompt em uma transcrição real de reunião do meu projeto de processos seletivos acadêmicos. O output esperado é um digest estruturado com: (1) decisões tomadas, (2) ações definidas com dono e prazo, (3) riscos identificados, (4) perguntas em aberto para stakeholder, (5) resumo executivo para comunicação assíncrona. Pode usar a transcrição da sprint review do RouteWise como exemplo ou criar uma transcrição fictícia de reunião de refinamento do meu projeto.
+
 ---
 
 ## Módulo 7: Status Reports
 
 **Status Reports Automatizados**
 Gerei status reports estruturados com métricas de velocity, lead time, progresso de sprint, e saúde do projeto. Os reports incluem visualização de blockers, dependências críticas, e recomendações de ação para próxima sprint. O formato é otimizado para comunicação executiva (1 página) e detalhamento técnico (appendix com métricas).
+
+> **Pendente:** Aplicar o Status Report Prompt com os dados do meu projeto de processos seletivos acadêmicos. O output esperado é um status report estruturado com: (1) resumo executivo (1 página) com saúde do projeto, (2) métricas de velocity e lead time, (3) progresso de sprint atual, (4) blockers e dependências críticas, (5) recomendações de ação para próxima sprint, (6) appendix técnico com métricas detalhadas. Pode usar o jira-estado-board do RouteWise como exemplo ou criar um snapshot fictício do board do meu projeto.
 
 ---
 
