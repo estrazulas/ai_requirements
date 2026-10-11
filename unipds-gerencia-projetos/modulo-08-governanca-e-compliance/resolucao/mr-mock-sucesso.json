@@ -1,0 +1,22 @@
+{
+  "mr": {
+    "title": "fix: corrige bug de conexao GPS #42",
+    "description": "Este MR resolve o problema de timeout na conexao com o servidor GPS.\n\nMudancas:\n- Aumentado timeout de 5s para 15s\n- Adicionado retry com backoff exponencial\n- Melhorados logs de erro\n\nTestes:\n- Testes unitarios atualizados\n- Cobertura mantida em 81%\n\nRelacionado: #42",
+    "changes_count": 359
+  },
+  "changed_files": [
+    "src/integrations/gps/tracker-client.js",
+    "src/api/routes/alerts.js",
+    "tests/integrations/gps.test.js"
+  ],
+  "approvals": [
+    { "username": "priya-ti" },
+    { "username": "carlos-ops" }
+  ],
+  "coverage": {
+    "total": { "lines": { "pct": 81.4 } }
+  },
+  "base_coverage": {
+    "total": { "lines": { "pct": 83.1 } }
+  }
+}
